@@ -74,7 +74,11 @@ export default function App() {
 
   // Backend Integration
   const { stations: apiStations, updateStation } = useStationData(ACTUAL_AWS_STATIONS);
-  const wsUrl = `ws://${window.location.host}/ws`;
+  
+  // Use VITE_WS_BASE_URL for production, fallback to relative proxy for local dev
+  const wsBase = import.meta.env.VITE_WS_BASE_URL || `ws://${window.location.host}`;
+  const wsUrl = `${wsBase}/ws`;
+  
   const { isConnected, lastMessage, sendMessage } = useWebSocket(wsUrl);
   const lastProcessedMessageRef = useRef<any>(null);
 

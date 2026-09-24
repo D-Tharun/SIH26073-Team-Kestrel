@@ -138,7 +138,8 @@ export const LiveTestDropdown: React.FC<LiveTestDropdownProps> = ({
     }
 
     try {
-      const response = await fetch('/api/inject', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+      const response = await fetch(`${apiBase}/api/inject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

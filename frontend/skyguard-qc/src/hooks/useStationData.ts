@@ -20,7 +20,8 @@ export function useStationData(staticStations: AWSStation[]) {
   useEffect(() => {
     const fetchStations = async () => {
       try {
-        const res = await fetch('/api/stations');
+        const apiBase = import.meta.env.VITE_API_BASE_URL || '';
+        const res = await fetch(`${apiBase}/api/stations`);
         if (!res.ok) throw new Error('Failed to fetch stations');
         const data = await res.json();
         
