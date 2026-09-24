@@ -12,7 +12,7 @@
 **SkyGuard AI** by **Team Kestrel** is a real-time meteorological quality control (QC) and anomaly detection platform designed for Automated Weather Station (AWS) networks. It combines dual-redundant IoT edge sensing with a **4-pillar verification engine** and a **deep learning transformer ensemble** to reliably distinguish between **sensor hardware failures** and **genuine extreme meteorological events**.
 
 > [!NOTE]
-> This repository contains the official codebase for **SIH26073-Team Kestrel**. For the complete 55KB deep-dive system architecture, mathematical formulations, operational flows, and problem statement compliance matrix, see [**SKYGUARD_SOLUTION_ARCHITECTURE.md**](SKYGUARD_SOLUTION_ARCHITECTURE.md).
+> This repository contains the official codebase for **SIH26073-Team Kestrel**. For the complete 55KB deep-dive system architecture, mathematical formulations, operational flows, and problem statement compliance matrix, see [**SKYGUARD_SOLUTION_ARCHITECTURE.md**](docs/architecture/SKYGUARD_SOLUTION_ARCHITECTURE.md).
 
 ---
 
@@ -31,6 +31,10 @@
   - Dual BME280 sensor comparison cards with real-time discrepancy gauges.
 - **12 Curated Meteorological Scenarios**: Interactive simulation of real weather phenomena (Cyclone Vardah, Delhi Heatwave, Cherrapunji Monsoon) alongside complex failure modes (Sensor Drift, Stuck Bit, Sudden Spike, Battery Brownout).
 - **Real-Time Streaming**: High-throughput asynchronous ingestion via **MQTT** and bidirectional dashboard broadcasting via **WebSockets**.
+- **Enterprise-Grade Resilience**:
+  - API Schema validation (HTTP 422 gates) to prevent pipeline pollution.
+  - Deterministic frozen sensor hard-overrides embedded deeply within the 4-pillar Decision Engine.
+  - Subprocess OS I/O deadlock immunity & `WindowsSelectorEventLoopPolicy` hardening for extreme concurrency.
 
 ---
 
@@ -184,8 +188,8 @@ SkyGuard AI was benchmarked on a strictly held-out test split of **10,507 slidin
 #### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Team-Kestrel/SIH26073.git
-cd SIH26073
+git clone https://github.com/D-Tharun/SIH26073-Team-Kestrel.git
+cd SIH26073-Team-Kestrel
 ```
 
 #### 2. Configure Environment Variables
