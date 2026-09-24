@@ -146,6 +146,7 @@ def validate_observation(reading: Dict) -> Optional[str]:
     required = ["temp_c", "pressure_hpa", "humidity_pct", "timestamp"]
     for req in required:
         if req not in reading or reading[req] is None:
+            logger.error(f"QC GATE FAIL: Missing field {req}")
             return f"Missing required field: {req}"
         
     for param in ["temp_c", "pressure_hpa", "humidity_pct"]:
@@ -157,6 +158,7 @@ def validate_observation(reading: Dict) -> Optional[str]:
             
     ts = reading.get("timestamp")
     if not isinstance(ts, str):
+        logger.error(f"QC GATE FAIL: Invalid timestamp {ts}")
         return "Invalid timestamp format (must be string)"
         
     return None
@@ -178,6 +180,8 @@ async def process_station_updates(
     explainer: SHAPExplainer = app_state["explainer"]
     ws_manager: WebSocketManager = app_state["ws_manager"]
     feature_engines: Dict[str, FeatureEngine] = app_state["feature_engines"]
+    
+    new_decisions = {}
     
     # ── Basic QC Gate ──
     valid_readings = {}
@@ -227,6 +231,7 @@ async def process_station_updates(
                     },
                 }
                 app_state["latest_decisions"][station_id] = decision
+                new_decisions[station_id] = decision
                 await ws_manager.broadcast_station_update(
                     station_id=station_id,
                     observation=reading,
@@ -290,6 +295,7 @@ async def process_station_updates(
                 all_station_data=spatial_snapshot,
             )
             app_state["latest_decisions"][station_id] = decision
+            new_decisions[station_id] = decision
             
             # 4. SHAP explanation
             explanation = explainer.explain(
@@ -321,6 +327,8 @@ async def process_station_updates(
         
         except Exception as e:
             logger.error("Error processing station %s: %s", station_id, e, exc_info=True)
+            
+    return new_decisions
 
 
 # ─── WebSocket Endpoint ───────────────────────────────────────────────

@@ -345,10 +345,10 @@ async def inject_telemetry(payload: TelemetryPayload):
     try:
         from server.main import process_station_updates
         # Process for both target_sid and canonical_sid to ensure all consumers see it
-        await process_station_updates({target_sid: reading}, state.get("station_histories", {}))
+        new_decisions = await process_station_updates({target_sid: reading}, state.get("station_histories", {}))
         if canonical_sid != target_sid:
             reading_canon = dict(reading, station_id=canonical_sid)
-            await process_station_updates({canonical_sid: reading_canon}, state.get("station_histories", {}))
+            new_decisions.update(await process_station_updates({canonical_sid: reading_canon}, state.get("station_histories", {})))
     except Exception as e:
         logger.error("Error processing manual injection: %s", e)
         return {"error": str(e)}, 500
@@ -363,8 +363,8 @@ async def inject_telemetry(payload: TelemetryPayload):
         return obj
         
     dec = (
-        sanitize_for_json(state.get("latest_decisions", {}).get(target_sid, {}))
-        or sanitize_for_json(state.get("latest_decisions", {}).get(canonical_sid, {}))
+        sanitize_for_json(new_decisions.get(target_sid, {}))
+        or sanitize_for_json(new_decisions.get(canonical_sid, {}))
     )
     
     return {
