@@ -1,0 +1,27 @@
+# SkyGuard AI Backend Dependencies
+# Core API
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+websockets==15.0.1
+pydantic==2.11.7
+
+# ML / Deep Learning
+torch==2.7.1
+scikit-learn==1.6.1
+numpy==2.2.6
+pandas==2.2.3
+
+# Explainability
+shap==0.46.0
+
+# Data Download
+kagglehub==0.3.12
+requests==2.32.3
+
+# Hardware Integration
+paho-mqtt==2.1.0
+
+# Utilities
+python-dotenv==1.1.0
+PyYAML==6.0.2
+joblib==1.5.1

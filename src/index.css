@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-canvas: #E8E6DD;
+    --color-surface: #FFFFFF;
+    --color-stone: #DDD8CF;
+    --color-mist: #B3C8CF;
+    --color-slate-blue: #4A6B78;
+    --color-text-main: #273844;
+    --color-text-muted: #475560;
+    --color-border: #C7C2B8;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #E8E6DD;
+    color: #273844;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+}
+
+/* Minimal Leaflet Map Overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #DDD8CF !important;
+  font-family: inherit;
+}
+
+.custom-weather-station-marker {
+  overflow: visible !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  box-shadow: 0 10px 25px -5px rgba(39, 56, 68, 0.12), 0 8px 10px -6px rgba(39, 56, 68, 0.08) !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+  border: 1px solid #C7C2B8 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: normal !important;
+}
+
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+}
+
+/* Minimal Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C7C2B8;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B3C8CF;
+}
+
+/* Anomaly Pulse Animation */
+@keyframes anomaly-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(142, 53, 43, 0.5); }
+  50% { box-shadow: 0 0 20px 8px rgba(142, 53, 43, 0.25); }
+}
+
+/* Cute Weather Node Animations */
+@keyframes cute-sun-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cute-sun-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.6)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 9px rgba(245, 158, 11, 0.9)); }
+}
+
+@keyframes cute-cloud-drift {
+  0% { transform: translateX(-3px) translateY(0); }
+  50% { transform: translateX(3px) translateY(-1.5px); }
+  100% { transform: translateX(-3px) translateY(0); }
+}
+
+@keyframes cute-cloud-puff {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes cute-rain-drop {
+  0% { transform: translateY(-5px); opacity: 0; }
+  35% { opacity: 1; }
+  85% { opacity: 0.9; }
+  100% { transform: translateY(7px); opacity: 0; }
+}
+
+@keyframes cute-lightning-flash {
+  0%, 78%, 88%, 100% { opacity: 0; transform: scale(0.85); }
+  80%, 84% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px #FACC15); }
+  82%, 86% { opacity: 0.25; }
+}
+
+@keyframes cute-thunder-rumble {
+  0%, 100% { transform: translateX(0); }
+  79% { transform: translateX(-1px) rotate(-1deg); }
+  82% { transform: translateX(1.5px) rotate(1deg); }
+  85% { transform: translateX(-0.5px); }
+}
+
+@keyframes cute-wind-wave {
+  0% { transform: translateX(-3px) skewX(-2deg); }
+  50% { transform: translateX(3px) skewX(2deg); }
+  100% { transform: translateX(-3px) skewX(-2deg); }
+}
+
+@keyframes cute-mist-glide {
+  0% { transform: translateX(-3px); opacity: 0.7; }
+  50% { transform: translateX(3px); opacity: 1; }
+  100% { transform: translateX(-3px); opacity: 0.7; }
+}
+
+@keyframes cute-badge-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Cute Weather Node Badge Themes */
+.weather-badge-sunny {
+  background: linear-gradient(135deg, #FFFDF2 0%, #FEF3C7 100%);
+  border-color: #FCD34D;
+  color: #92400E;
+  box-shadow: 0 4px 12px -2px rgba(245, 158, 11, 0.25);
+}
+
+.weather-badge-cloudy {
+  background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+  border-color: #CBD5E1;
+  color: #334155;
+  box-shadow: 0 4px 12px -2px rgba(100, 116, 139, 0.2);
+}
+
+.weather-badge-partly_cloudy {
+  background: linear-gradient(135deg, #FFFDF5 0%, #F1F5F9 100%);
+  border-color: #E2E8F0;
+  color: #475569;
+  box-shadow: 0 4px 12px -2px rgba(100, 116, 139, 0.2);
+}
+
+.weather-badge-rainy {
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+  border-color: #7DD3FC;
+  color: #0369A1;
+  box-shadow: 0 4px 12px -2px rgba(14, 165, 233, 0.25);
+}
+
+.weather-badge-thunderstorm {
+  background: linear-gradient(135deg, #1E2238 0%, #111322 100%);
+  border-color: #818CF8;
+  color: #F8FAFC;
+  box-shadow: 0 4px 16px -2px rgba(99, 102, 241, 0.4);
+}
+
+.weather-badge-windy {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border-color: #FBBF24;
+  color: #B45309;
+  box-shadow: 0 4px 12px -2px rgba(245, 158, 11, 0.25);
+}
+
+.weather-badge-mist {
+  background: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%);
+  border-color: #5EEAD4;
+  color: #0F766E;
+  box-shadow: 0 4px 12px -2px rgba(20, 184, 166, 0.25);
+}
+
+/* Anomaly Station Marker Glow */
+.station-marker-fault {
+  animation: anomaly-pulse 1.5s ease-in-out infinite;
+}
+
+.station-marker-event {
+  animation: anomaly-pulse 2.5s ease-in-out infinite;
+  --tw-shadow-color: rgba(44, 76, 100, 0.4);
+}
+

@@ -1,0 +1,6 @@
+{
+  "vae_threshold": 2.8883,
+  "at_threshold": 36.8492,
+  "if_threshold": 0.7244,
+  "ensemble_threshold": 0.5
+}

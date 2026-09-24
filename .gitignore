@@ -1,0 +1,25 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Raw datasets
+server/data/raw/
+*.csv
+
+# Temporary backups
+files_changed/
+files_changed.zip
+

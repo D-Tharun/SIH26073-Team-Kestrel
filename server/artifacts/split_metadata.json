@@ -1,0 +1,13 @@
+{
+  "total_features": 70087,
+  "train_size": 49060,
+  "val_size": 10513,
+  "test_size": 10514,
+  "train_ratio": 0.7,
+  "val_ratio": 0.15,
+  "test_ratio": 0.15,
+  "train_range": "rows 0\u201349059",
+  "val_range": "rows 49060\u201359572",
+  "test_range": "rows 59573\u201370086",
+  "window_size": 8
+}
