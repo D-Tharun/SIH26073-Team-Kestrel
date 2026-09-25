@@ -14,6 +14,12 @@ router = APIRouter(prefix="/api")
 
 def get_app_state():
     """Get the global app state (injected at startup)."""
+    import sys
+    # Fix split-brain state if uvicorn started directly in server/ as 'main:app'
+    if "main" in sys.modules and hasattr(sys.modules["main"], "app_state"):
+        if sys.modules["main"].app_state.get("ensemble") is not None:
+            return sys.modules["main"].app_state
+            
     from server.main import app_state
     return app_state
 

@@ -1,5 +1,5 @@
-"""
-SkyGuard AI — FastAPI Application Entry Point
+﻿"""
+SkyGuard AI â€” FastAPI Application Entry Point
 Main server orchestrating the anomaly detection pipeline.
 """
 import asyncio
@@ -37,7 +37,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("skyguard")
 
-# ─── Global Application State ─────────────────────────────────────────
+# â”€â”€â”€ Global Application State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 app_state: Dict = {
     "mode": "demo",  # "demo" | "live" | "static"
     "simulator": None,
@@ -55,9 +55,9 @@ app_state: Dict = {
     "station_histories": {sid: deque(maxlen=50) for sid in STATIONS},
 }
 
-# ─── FastAPI App ───────────────────────────────────────────────────────
+# â”€â”€â”€ FastAPI App â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 app = FastAPI(
-    title="SkyGuard AI — Anomaly Detection Backend",
+    title="SkyGuard AI â€” Anomaly Detection Backend",
     description="Real-time weather station anomaly detection with triple-model ML ensemble",
     version="2.0.0",
 )
@@ -75,14 +75,14 @@ app.add_middleware(
 app.include_router(api_router)
 
 
-# ─── Startup / Shutdown ───────────────────────────────────────────────
+# â”€â”€â”€ Startup / Shutdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @app.on_event("startup")
 async def startup():
     """Initialize all subsystems on server start."""
-    logger.info("╔══════════════════════════════════════════════╗")
-    logger.info("║  SkyGuard AI — Backend Starting...           ║")
-    logger.info("╚══════════════════════════════════════════════╝")
+    logger.info("â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—")
+    logger.info("â•‘  SkyGuard AI â€” Backend Starting...           â•‘")
+    logger.info("â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
     
     # Initialize WebSocket manager
     app_state["ws_manager"] = WebSocketManager()
@@ -167,6 +167,13 @@ async def process_single_telemetry(station_id: str, payload: Dict):
     """Handle a single telemetry update from MQTT (Hardware Mode)."""
     await process_station_updates({station_id: payload}, app_state["station_histories"])
 
+def get_global_app_state():
+    import sys
+    if "main" in sys.modules and hasattr(sys.modules["main"], "app_state"):
+        if sys.modules["main"].app_state.get("ensemble") is not None:
+            return sys.modules["main"].app_state
+    return app_state
+
 async def process_station_updates(
     all_readings: Dict[str, Dict],
     station_histories: Dict[str, deque],
@@ -174,16 +181,17 @@ async def process_station_updates(
     """
     Main processing pipeline called by the simulator for each timestep.
     """
-    ensemble: EnsembleDetector = app_state["ensemble"]
-    decision_engine: DecisionEngine = app_state["decision_engine"]
-    health_monitor: SensorHealthMonitor = app_state["health_monitor"]
-    explainer: SHAPExplainer = app_state["explainer"]
-    ws_manager: WebSocketManager = app_state["ws_manager"]
-    feature_engines: Dict[str, FeatureEngine] = app_state["feature_engines"]
+    state = get_global_app_state()
+    ensemble: EnsembleDetector = state["ensemble"]
+    decision_engine: DecisionEngine = state["decision_engine"]
+    health_monitor: SensorHealthMonitor = state["health_monitor"]
+    explainer: SHAPExplainer = state["explainer"]
+    ws_manager: WebSocketManager = state["ws_manager"]
+    feature_engines: Dict[str, FeatureEngine] = state["feature_engines"]
     
     new_decisions = {}
     
-    # ── Basic QC Gate ──
+    # â”€â”€ Basic QC Gate â”€â”€
     valid_readings = {}
     fault_decisions = {}
     for sid, reading in all_readings.items():
@@ -203,7 +211,7 @@ async def process_station_updates(
         }
     for sid in STATIONS:
         if sid not in spatial_snapshot:
-            last_good = app_state["latest_observations"].get(sid)
+            last_good = state["latest_observations"].get(sid)
             if last_good:
                 spatial_snapshot[sid] = {
                     "temp_c": last_good.get("temp_c"),
@@ -222,7 +230,7 @@ async def process_station_updates(
                     "weighted_pillar_score": 0.0,
                     "S_anomaly": 1.0,
                     "S_event": 0.0,
-                    "evidence_summary": f"⚠ Basic QC Gate failed: {err}. Sample rejected.",
+                    "evidence_summary": f"âš  Basic QC Gate failed: {err}. Sample rejected.",
                     "corrected_observation": None,
                     "pillars": {},
                     "ml_ensemble": {
@@ -230,7 +238,7 @@ async def process_station_updates(
                         "vae_score": 0, "at_score": 0, "if_score": 0,
                     },
                 }
-                app_state["latest_decisions"][station_id] = decision
+                state["latest_decisions"][station_id] = decision
                 new_decisions[station_id] = decision
                 await ws_manager.broadcast_station_update(
                     station_id=station_id,
@@ -241,12 +249,12 @@ async def process_station_updates(
                 continue
 
             # Ensure station history deque exists dynamically
-            if station_id not in app_state["station_histories"]:
-                app_state["station_histories"][station_id] = deque(maxlen=200)
+            if station_id not in state["station_histories"]:
+                state["station_histories"][station_id] = deque(maxlen=200)
 
             # Store latest VALID observation
-            app_state["latest_observations"][station_id] = reading
-            app_state["station_histories"][station_id].append(reading)
+            state["latest_observations"][station_id] = reading
+            state["station_histories"][station_id].append(reading)
             
             # 1. Feature engineering
             fe = feature_engines.get(station_id)
@@ -270,7 +278,7 @@ async def process_station_updates(
             if features is not None:
                 # Build a window from recent features
                 recent_features = []
-                recent_history = list(app_state["station_histories"][station_id])
+                recent_history = list(state["station_histories"][station_id])
                 
                 temp_fe = FeatureEngine()
                 for r in recent_history[-20:]:
@@ -286,7 +294,7 @@ async def process_station_updates(
                     ml_result = ensemble.detect(window)
             
             # 3. 4-Pillar decision
-            history = list(app_state["station_histories"][station_id])
+            history = list(state["station_histories"][station_id])
             decision = decision_engine.evaluate(
                 station_id=station_id,
                 current_obs=reading,
@@ -294,7 +302,7 @@ async def process_station_updates(
                 ml_result=ml_result,
                 all_station_data=spatial_snapshot,
             )
-            app_state["latest_decisions"][station_id] = decision
+            state["latest_decisions"][station_id] = decision
             new_decisions[station_id] = decision
             
             # 4. SHAP explanation
@@ -303,7 +311,7 @@ async def process_station_updates(
                 ml_result=ml_result,
                 current_obs=reading,
             )
-            app_state["latest_explanations"][station_id] = explanation
+            state["latest_explanations"][station_id] = explanation
             
             # 5. Sensor health update
             for param in ["temp_c", "pressure_hpa", "humidity_pct"]:
@@ -315,7 +323,7 @@ async def process_station_updates(
                 )
             
             health_report = health_monitor.get_health_report(station_id)
-            app_state["latest_health"][station_id] = health_report
+            state["latest_health"][station_id] = health_report
             
             # 6. Broadcast via WebSocket
             await ws_manager.broadcast_station_update(
@@ -331,12 +339,12 @@ async def process_station_updates(
     return new_decisions
 
 
-# ─── WebSocket Endpoint ───────────────────────────────────────────────
+# â”€â”€â”€ WebSocket Endpoint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """WebSocket endpoint for real-time dashboard updates."""
-    ws_manager: WebSocketManager = app_state["ws_manager"]
+    ws_manager: WebSocketManager = get_global_app_state()["ws_manager"]
     await ws_manager.connect(websocket)
     
     try:
@@ -344,12 +352,12 @@ async def websocket_endpoint(websocket: WebSocket):
         initial_state = {
             "type": "initial_state",
             "stations": {},
-            "mode": app_state.get("mode", "demo"),
+            "mode": get_global_app_state().get("mode", "demo"),
         }
         for sid in STATIONS:
             initial_state["stations"][sid] = {
-                "observation": app_state.get("latest_observations", {}).get(sid, {}),
-                "decision": app_state.get("latest_decisions", {}).get(sid, {}),
+                "observation": get_global_app_state().get("latest_observations", {}).get(sid, {}),
+                "decision": get_global_app_state().get("latest_decisions", {}).get(sid, {}),
             }
         await ws_manager.send_to_client(websocket, initial_state)
         
@@ -361,7 +369,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 import json
                 msg = json.loads(data)
                 if msg.get("type") == "activate_scenario":
-                    simulator = app_state.get("simulator")
+                    simulator = get_global_app_state().get("simulator")
                     if simulator:
                         simulator.set_scenario(msg.get("scenario_id"))
                 elif msg.get("type") == "ping":
@@ -373,7 +381,7 @@ async def websocket_endpoint(websocket: WebSocket):
         await ws_manager.disconnect(websocket)
 
 
-# ─── Main ──────────────────────────────────────────────────────────────
+# â”€â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 if __name__ == "__main__":
     import uvicorn
@@ -384,3 +392,5 @@ if __name__ == "__main__":
         reload=True,
         log_level="info",
     )
+
+
