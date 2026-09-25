@@ -114,8 +114,9 @@ async def startup():
     else:
         logger.info("Simulator disabled via environment variable.")
 
-    # Initialize MQTT
-    mqtt_handler = MQTTHandler(broker="localhost", port=1883)
+    # Initialize MQTT (Use public broker so local hardware can route to Render)
+    mqtt_broker = os.getenv("MQTT_BROKER", "broker.hivemq.com")
+    mqtt_handler = MQTTHandler(broker=mqtt_broker, port=1883)
     if mqtt_handler.is_available():
         mqtt_handler.connect(on_telemetry=process_single_telemetry)
     app_state["mqtt"] = mqtt_handler
