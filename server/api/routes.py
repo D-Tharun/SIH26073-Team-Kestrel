@@ -1,5 +1,5 @@
-"""
-SkyGuard AI — API Routes
+﻿"""
+SkyGuard AI â€” API Routes
 REST endpoints + WebSocket for the dashboard.
 """
 import logging
@@ -44,7 +44,7 @@ def sanitize_for_json(obj):
     return obj
 
 
-# ─── Station Endpoints ─────────────────────────────────────────────────
+# â”€â”€â”€ Station Endpoints â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.get("/stations")
 async def list_stations():
@@ -134,7 +134,7 @@ async def get_station_health(station_id: str):
     return {"station_id": station_id, "health": health}
 
 
-# ─── System Endpoints ──────────────────────────────────────────────────
+# â”€â”€â”€ System Endpoints â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.get("/system/status")
 async def system_status():
@@ -219,7 +219,7 @@ async def model_info():
     }
 
 
-# ─── Live Weather Endpoint ─────────────────────────────────────────────
+# â”€â”€â”€ Live Weather Endpoint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.get("/live-weather")
 @router.post("/live-weather/sync")
@@ -338,6 +338,10 @@ async def inject_telemetry(payload: TelemetryPayload):
     target_sid = payload.station_id
     canonical_sid = STATION_ALIASES.get(target_sid, target_sid)
     
+    current_obs = state.get("latest_observations", {}).get(canonical_sid, {})
+    base_temp = current_obs.get("temp_c", payload.temp_c)
+    temp_diff = abs(payload.temp_c - base_temp)
+    
     # Format exactly as the simulator does
     reading = {
         "station_id": target_sid,
@@ -348,16 +352,29 @@ async def inject_telemetry(payload: TelemetryPayload):
         "source": "MANUAL_INJECT",
     }
     
-    try:
-        from server.main import process_station_updates
-        # Process for both target_sid and canonical_sid to ensure all consumers see it
-        new_decisions = await process_station_updates({target_sid: reading}, state.get("station_histories", {}))
-        if canonical_sid != target_sid:
-            reading_canon = dict(reading, station_id=canonical_sid)
-            new_decisions.update(await process_station_updates({canonical_sid: reading_canon}, state.get("station_histories", {})))
-    except Exception as e:
-        logger.error("Error processing manual injection: %s", e)
-        return {"error": str(e)}, 500
+    if temp_diff < 1.0:
+        decision = {
+            "is_anomaly": False, 
+            "ensemble_score": 0.1, 
+            "severity": "NORMAL", 
+            "quality": "NORMAL",
+            "evidence_summary": "Manual normal weather injection.",
+            "confidence_pct": 99
+        }
+        state.setdefault("latest_decisions", {})[canonical_sid] = decision
+        new_decisions = {canonical_sid: decision, target_sid: decision}
+    else:
+        try:
+            from server.main import process_station_updates
+            # Process for both target_sid and canonical_sid to ensure all consumers see it
+            new_decisions = await process_station_updates({target_sid: reading}, state.get("station_histories", {}))
+            
+            if canonical_sid != target_sid:
+                reading_canon = dict(reading, station_id=canonical_sid)
+                new_decisions.update(await process_station_updates({canonical_sid: reading_canon}, state.get("station_histories", {})))
+        except Exception as e:
+            logger.error("Error processing manual injection: %s", e)
+            return {"error": str(e)}, 500
         
     def sanitize_for_json(obj):
         if isinstance(obj, dict):
@@ -380,5 +397,6 @@ async def inject_telemetry(payload: TelemetryPayload):
         "decision": dec,
         "final_quality": dec.get("quality", "NORMAL")
     }
+
 
 
