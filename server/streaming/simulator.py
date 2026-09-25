@@ -1,7 +1,7 @@
-"""
-SkyGuard AI — Real-Data Replay Simulator
+﻿"""
+SkyGuard AI â€” Real-Data Replay Simulator
 Streams actual Kaggle weather data through the anomaly detection pipeline.
-Does NOT generate fake data — replays real observations with regional offsets.
+Does NOT generate fake data â€” replays real observations with regional offsets.
 """
 import asyncio
 import logging
@@ -48,7 +48,7 @@ class RealDataSimulator:
         """
         if csv_path is None:
             # Try to find Jena Climate data
-            candidates = [
+            candidates = [RAW_DATA_DIR / "sample_weather.csv", 
                 RAW_DATA_DIR / "jena_climate.csv",
                 RAW_DATA_DIR / "jena_climate_2009_2016.csv",
                 RAW_DATA_DIR / "weather.csv",
@@ -116,7 +116,7 @@ class RealDataSimulator:
     
     def _generate_fallback(self):
         """Generate minimal plausible data if no CSV is available."""
-        logger.warning("Using fallback data generation — download real data for best results")
+        logger.warning("Using fallback data generation â€” download real data for best results")
         n = 10000
         hours = np.tile(np.linspace(0, 24, 144), n // 144 + 1)[:n]
         months = np.repeat(np.arange(1, 13), n // 12 + 1)[:n]
@@ -205,10 +205,10 @@ class RealDataSimulator:
         
         elif anomaly_type == "drift":
             # Gradual temperature drift
-            reading["temp_c"] += step * 0.08  # +0.08°C per step
+            reading["temp_c"] += step * 0.08  # +0.08Â°C per step
         
         elif anomaly_type == "genuine_event":
-            # Real heat wave — both primary and secondary sensors agree
+            # Real heat wave â€” both primary and secondary sensors agree
             if 5 <= step <= 25:
                 heat_add = min(12, step * 0.6)
                 reading["temp_c"] += heat_add
@@ -282,3 +282,5 @@ class RealDataSimulator:
             "active_scenario": self._active_scenario,
             "scenario_step": self._scenario_step,
         }
+
+
