@@ -1,4 +1,4 @@
-# SkyGuard AI — National Meteorological Observation Quality Control Command Center
+﻿# SkyGuard AI â€” National Meteorological Observation Quality Control Command Center
 ## Comprehensive Solution Architecture, Technical Specification & Operational Flow
 
 ---
@@ -24,7 +24,7 @@
 ## 1. Executive Summary & Problem Statement Demystification
 
 ### 1.1 The Challenge
-Modern national meteorological networks (such as India Meteorological Department - IMD, WMO, and global climate agencies) rely on thousands of **Automated Weather Stations (AWS)** deployed in diverse, harsh geographic terrains—from arid deserts (Jaisalmer) and coastal maritime zones (Chennai) to high-altitude hills (Shillong) and dense urban heat islands (Delhi).
+Modern national meteorological networks (such as India Meteorological Department - IMD, WMO, and global climate agencies) rely on thousands of **Automated Weather Stations (AWS)** deployed in diverse, harsh geographic terrainsâ€”from arid deserts (Jaisalmer) and coastal maritime zones (Chennai) to high-altitude hills (Shillong) and dense urban heat islands (Delhi).
 
 These stations continuously capture critical atmospheric telemetry:
 * **Air Temperature ($^\circ\text{C}$)**
@@ -66,63 +66,63 @@ Conventional automated meteorological QC suffers from a fatal architectural flaw
 SkyGuard AI implements an **Edge-to-Cloud Distributed Intelligence Pipeline**. Processing is tiered across hardware edge firmware, low-latency message streaming, dual-phase neural network scoring, multi-pillar physical synthesis, and an interactive command center interface.
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 EDGE HARDWARE TIER                                     │
-│  [Station AWS-RJ-JSM-01 / Jaisalmer Sam Dunes]                                         │
-│                                                                                        │
-│  ┌──────────────────────┐    I2C (0x76)    ┌────────────────────────────────────────┐  │
-│  │ BME280 Primary Sensor│ ───────────────► │ ESP32-WROOM-32D Microcontroller        │  │
-│  └──────────────────────┘                  │ • Range Check (-40°C to +85°C)         │  │
-│  ┌──────────────────────┐    I2C (0x77)    │ • Rate of Change (< 5°C / 10 min)      │  │
-│  │ BME280 Backup Sensor │ ───────────────► │ • Dual Sensor Consensus (|T1-T2| ≤ 2°C)│  │
-│  └──────────────────────┘                  │ • Frozen Bit / ADC Stuck Test          │  │
-│                                            │ • CRC8 / Parity Integrity Check        │  │
-│                                            └───────────────────┬────────────────────┘  │
-└────────────────────────────────────────────────────────────────┼───────────────────────┘
-                                                                 │ MQTT (JSON Telemetry)
-                                                                 │ or WebSocket Stream
-┌────────────────────────────────────────────────────────────────▼───────────────────────┐
-│                               BACKEND PROCESSING ENGINE                                │
-│                                                                                        │
-│   FastAPI Ingestion Router ◄── RealDataSimulator (Jena Climate Dataset Baseline)      │
-│                │                                                                       │
-│   ┌────────────▼───────────────────────────────────────────────────────────────────┐  │
-│   │ 1. Feature Engineering Engine (22 Meteorological Dimensions)                    │  │
-│   │    • Temporal Lags & Volatility • Diurnal/Seasonal Sin/Cos • Dewpoint Magnus   │  │
-│   └────────────┬───────────────────────────────────────────────────────────────────┘  │
-│                │                                                                       │
-│   ┌────────────▼───────────────────────────────────────────────────────────────────┐  │
-│   │ 2. Triple-Model ML Ensemble Anomaly Scoring                                     │  │
-│   │    ├── Transformer-VAE (Reconstruction Loss + Latent KL Divergence, W=0.45)    │  │
-│   │    ├── Anomaly Transformer (Prior vs Series Association Discrepancy, W=0.35)   │  │
-│   │    └── Isolation Forest (Tree Partition Isolation Depth, W=0.20)               │  │
-│   └────────────┬───────────────────────────────────────────────────────────────────┘  │
-│                │                                                                       │
-│   ┌────────────▼───────────────────────────────────────────────────────────────────┐  │
-│   │ 3. 4-Pillar Meteorological Decision Engine                                     │  │
-│   │    ├── Pillar 1: Temporal Continuity (Spikes, Zero-Variance Freezes, Trends)   │  │
-│   │    ├── Pillar 2: Multivariate Balance (Mahalanobis Distance, T-RH Inversion)   │  │
-│   │    ├── Pillar 3: Thermodynamics (Clausius-Clapeyron, Dewpoint ≤ T, Barometric) │  │
-│   │    └── Pillar 4: Spatial Peer Correlation (Haversine Buddy Station Consensus)  │  │
-│   └────────────┬───────────────────────────────────────────────────────────────────┘  │
-│                │                                                                       │
-│   ┌────────────▼───────────────────────────────────────────────────────────────────┐  │
-│   │ 4. Decision Synthesis & Evidence Fusion (S_anomaly vs S_event)                 │  │
-│   │    ├── Output: NORMAL | GENUINE EVENT | SENSOR FAULT | UNCERTAIN REVIEW        │  │
-│   │    ├── SHAP Explainability Engine (Feature Attribution & Plain Language)       │  │
-│   │    └── Self-Healing Imputation Engine (Exponential History + Buddy Extrap.)    │  │
-│   └────────────┬───────────────────────────────────────────────────────────────────┘  │
-└────────────────┼───────────────────────────────────────────────────────────────────────┘
-                 │ High-Throughput Real-Time WebSocket Push (/ws)
-┌────────────────▼───────────────────────────────────────────────────────────────────────┐
-│                         COMMAND CENTER UI (REACT 19 / TAIWIND)                         │
-│                                                                                        │
-│  • 5-Level Geographic Drill-Down (India ➔ State ➔ District ➔ Station ➔ Dual Sensor)   │
-│  • Dual-Engine Map: Interactive Leaflet GIS (OSM/Satellite) + Precision Vector SVG    │
-│  • Multi-Variate Telemetry Intelligence Chart (Composed / Parity / Envelope / Heatmap) │
-│  • Evidence Synthesis Panels, Buddy Comparison Matrix & ESP32 Edge QC Dashboard        │
-│  • Scenario Simulation Controller (Heatwave, Spike, Frozen, Drift, Baseline)          │
-└────────────────────────────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                                 EDGE HARDWARE TIER                                     â”‚
+â”‚  [Station AWS-RJ-JSM-01 / Jaisalmer Sam Dunes]                                         â”‚
+â”‚                                                                                        â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    I2C (0x76)    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚ BME280 Primary Sensorâ”‚ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–º â”‚ ESP32-C3-Mini Microcontroller        â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                  â”‚ â€¢ Range Check (-40Â°C to +85Â°C)         â”‚  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    I2C (0x77)    â”‚ â€¢ Rate of Change (< 5Â°C / 10 min)      â”‚  â”‚
+â”‚  â”‚ BME280 Backup Sensor â”‚ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–º â”‚ â€¢ Dual Sensor Consensus (|T1-T2| â‰¤ 2Â°C)â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                  â”‚ â€¢ Frozen Bit / ADC Stuck Test          â”‚  â”‚
+â”‚                                            â”‚ â€¢ CRC8 / Parity Integrity Check        â”‚  â”‚
+â”‚                                            â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                                                 â”‚ MQTT (JSON Telemetry)
+                                                                 â”‚ or WebSocket Stream
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                               BACKEND PROCESSING ENGINE                                â”‚
+â”‚                                                                                        â”‚
+â”‚   FastAPI Ingestion Router â—„â”€â”€ RealDataSimulator (Jena Climate Dataset Baseline)      â”‚
+â”‚                â”‚                                                                       â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚   â”‚ 1. Feature Engineering Engine (22 Meteorological Dimensions)                    â”‚  â”‚
+â”‚   â”‚    â€¢ Temporal Lags & Volatility â€¢ Diurnal/Seasonal Sin/Cos â€¢ Dewpoint Magnus   â”‚  â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                â”‚                                                                       â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚   â”‚ 2. Triple-Model ML Ensemble Anomaly Scoring                                     â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Transformer-VAE (Reconstruction Loss + Latent KL Divergence, W=0.45)    â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Anomaly Transformer (Prior vs Series Association Discrepancy, W=0.35)   â”‚  â”‚
+â”‚   â”‚    â””â”€â”€ Isolation Forest (Tree Partition Isolation Depth, W=0.20)               â”‚  â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                â”‚                                                                       â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚   â”‚ 3. 4-Pillar Meteorological Decision Engine                                     â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Pillar 1: Temporal Continuity (Spikes, Zero-Variance Freezes, Trends)   â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Pillar 2: Multivariate Balance (Mahalanobis Distance, T-RH Inversion)   â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Pillar 3: Thermodynamics (Clausius-Clapeyron, Dewpoint â‰¤ T, Barometric) â”‚  â”‚
+â”‚   â”‚    â””â”€â”€ Pillar 4: Spatial Peer Correlation (Haversine Buddy Station Consensus)  â”‚  â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                â”‚                                                                       â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚   â”‚ 4. Decision Synthesis & Evidence Fusion (S_anomaly vs S_event)                 â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ Output: NORMAL | GENUINE EVENT | SENSOR FAULT | UNCERTAIN REVIEW        â”‚  â”‚
+â”‚   â”‚    â”œâ”€â”€ SHAP Explainability Engine (Feature Attribution & Plain Language)       â”‚  â”‚
+â”‚   â”‚    â””â”€â”€ Self-Healing Imputation Engine (Exponential History + Buddy Extrap.)    â”‚  â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚ High-Throughput Real-Time WebSocket Push (/ws)
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                         COMMAND CENTER UI (REACT 19 / TAIWIND)                         â”‚
+â”‚                                                                                        â”‚
+â”‚  â€¢ 5-Level Geographic Drill-Down (India âž” State âž” District âž” Station âž” Dual Sensor)   â”‚
+â”‚  â€¢ Dual-Engine Map: Interactive Leaflet GIS (OSM/Satellite) + Precision Vector SVG    â”‚
+â”‚  â€¢ Multi-Variate Telemetry Intelligence Chart (Composed / Parity / Envelope / Heatmap) â”‚
+â”‚  â€¢ Evidence Synthesis Panels, Buddy Comparison Matrix & ESP32 Edge QC Dashboard        â”‚
+â”‚  â€¢ Scenario Simulation Controller (Heatwave, Spike, Frozen, Drift, Baseline)          â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -131,7 +131,7 @@ SkyGuard AI implements an **Edge-to-Cloud Distributed Intelligence Pipeline**. P
 
 | Tier / Component | Technology Selected | Why We Chose It (Engineering Justification) |
 | :--- | :--- | :--- |
-| **Edge Hardware** | **ESP32-WROOM-32D** | Dual-core 240MHz MCU with native WiFi/BLE, ultra-low-power deep sleep ($10\mu\text{A}$), dual I2C buses, and hardware floating-point acceleration. Enables local sanity testing before cellular/satellite power transmission. |
+| **Edge Hardware** | **ESP32-C3-Mini** | Dual-core 240MHz MCU with native WiFi/BLE, ultra-low-power deep sleep ($10\mu\text{A}$), dual I2C buses, and hardware floating-point acceleration. Enables local sanity testing before cellular/satellite power transmission. |
 | **Physical Sensing** | **Dual Bosch BME280** (Addresses `0x76` & `0x77`) | High precision ($T: \pm0.5^\circ\text{C}$, $RH: \pm3\%$, $P: \pm1\,\text{hPa}$). Integrating two independent physical sensors on one I2C bus provides hardware-level redundancy to differentiate sensor failure from environmental anomalies at point of origin. |
 | **Edge Protocol** | **MQTT + PubSubClient** | Lightweight publish/subscribe architecture tailored for intermittent rural AWS networks; minimizes battery consumption and header overhead compared to heavy HTTP polling. |
 | **Backend Framework**| **Python 3.11 + FastAPI + Uvicorn** | Asynchronous, non-blocking async/await event loop capable of handling high-frequency telemetry streams; native OpenAPI generation and sub-millisecond WebSocket broadcasting. |
@@ -157,7 +157,7 @@ Before waking the radio to transmit, the ESP32 firmware executes on-chip verific
 ```cpp
 // From server/hardware/esp32_firmware.ino
 if (bme1_status && bme2_status) {
-    // Check dual sensor consensus: if Delta T > 2.0°C, flag hardware fault
+    // Check dual sensor consensus: if Delta T > 2.0Â°C, flag hardware fault
     if (abs(t1 - t2) > 2.0) primary_fault = true;
     final_t = (t1 + t2) / 2.0;
     final_h = (h1 + h2) / 2.0;
@@ -180,12 +180,12 @@ Raw meteorological values alone ($T, P, RH$) are insufficient for deep neural ne
 
 | Dimension Range | Feature Name | Mathematical Definition | Meteorological / Operational Justification |
 | :--- | :--- | :--- | :--- |
-| **0 – 2** | `temp_c`, `pressure_hpa`, `humidity_pct` | Raw sensor readings | Fundamental state variables. |
-| **3 – 8** | `rolling_temp_mean`, `rolling_temp_std`<br>`rolling_pres_mean`, `rolling_pres_std`<br>`rolling_hum_mean`, `rolling_hum_std` | $\mu_t = \frac{1}{k}\sum_{i=0}^{k-1} x_{t-i}$<br>$\sigma_t = \sqrt{\frac{1}{k}\sum (x_{t-i} - \mu_t)^2}$ | Captures baseline local trend and high-frequency volatility over rolling 6-step ($1\,\text{hour}$) window. |
-| **9 – 11** | `rate_temp`, `rate_pres`, `rate_hum` | $\Delta x_t = x_t - x_{t-1}$ | Rate-of-change (velocity) per 10-minute reporting interval; immediately highlights sudden spikes or pressure drops. |
-| **12 – 15** | `hour_sin`, `hour_cos`<br>`month_sin`, `month_cos` | $\sin\left(\frac{2\pi \cdot \text{hour}}{24}\right), \cos\left(\frac{2\pi \cdot \text{hour}}{24}\right)$<br>$\sin\left(\frac{2\pi \cdot \text{month}}{12}\right), \cos\left(\frac{2\pi \cdot \text{month}}{12}\right)$ | Cyclic Fourier encodings for time. Solves boundary discontinuity (23:59 to 00:01) and informs model of diurnal and monsoon seasonal cycles. |
-| **16 – 17** | `interaction_temp_hum`<br>`interaction_pres_temp` | $T \times RH$<br>$P \times T$ | Multi-variable interaction terms capturing thermodynamic coupling. |
-| **18 – 20** | `lag1_temp`, `lag1_hum`, `lag2_temp` | $x_{t-1}, x_{t-2}$ | Autoregressive memory allowing the model to detect sudden discontinuities without needing massive recurrent hidden states. |
+| **0 â€“ 2** | `temp_c`, `pressure_hpa`, `humidity_pct` | Raw sensor readings | Fundamental state variables. |
+| **3 â€“ 8** | `rolling_temp_mean`, `rolling_temp_std`<br>`rolling_pres_mean`, `rolling_pres_std`<br>`rolling_hum_mean`, `rolling_hum_std` | $\mu_t = \frac{1}{k}\sum_{i=0}^{k-1} x_{t-i}$<br>$\sigma_t = \sqrt{\frac{1}{k}\sum (x_{t-i} - \mu_t)^2}$ | Captures baseline local trend and high-frequency volatility over rolling 6-step ($1\,\text{hour}$) window. |
+| **9 â€“ 11** | `rate_temp`, `rate_pres`, `rate_hum` | $\Delta x_t = x_t - x_{t-1}$ | Rate-of-change (velocity) per 10-minute reporting interval; immediately highlights sudden spikes or pressure drops. |
+| **12 â€“ 15** | `hour_sin`, `hour_cos`<br>`month_sin`, `month_cos` | $\sin\left(\frac{2\pi \cdot \text{hour}}{24}\right), \cos\left(\frac{2\pi \cdot \text{hour}}{24}\right)$<br>$\sin\left(\frac{2\pi \cdot \text{month}}{12}\right), \cos\left(\frac{2\pi \cdot \text{month}}{12}\right)$ | Cyclic Fourier encodings for time. Solves boundary discontinuity (23:59 to 00:01) and informs model of diurnal and monsoon seasonal cycles. |
+| **16 â€“ 17** | `interaction_temp_hum`<br>`interaction_pres_temp` | $T \times RH$<br>$P \times T$ | Multi-variable interaction terms capturing thermodynamic coupling. |
+| **18 â€“ 20** | `lag1_temp`, `lag1_hum`, `lag2_temp` | $x_{t-1}, x_{t-2}$ | Autoregressive memory allowing the model to detect sudden discontinuities without needing massive recurrent hidden states. |
 | **21** | `dewpoint_c` | August-Roche-Magnus calculation | Physical condensation temperature. Vital thermodynamic boundary ($T_{\text{dew}} \le T$). |
 
 ---
@@ -196,21 +196,21 @@ Rather than relying on a single neural network architecture (which invariably po
 
 ```
 Incoming 22-Dimensional Sliding Window (8 timesteps)
-                       │
-       ┌───────────────┼───────────────┐
-       ▼               ▼               ▼
-┌──────────────┐┌──────────────┐┌──────────────┐
-│ Transformer- ││   Anomaly    ││  Isolation   │
-│     VAE      ││ Transformer  ││    Forest    │
-│ (Weight 0.45)││ (Weight 0.35)││ (Weight 0.20)│
-└──────┬───────┘└──────┬───────┘└──────┬───────┘
-       │               │               │
-       └───────────────┼───────────────┘
-                       ▼
+                       â”‚
+       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+       â–¼               â–¼               â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ Transformer- â”‚â”‚   Anomaly    â”‚â”‚  Isolation   â”‚
+â”‚     VAE      â”‚â”‚ Transformer  â”‚â”‚    Forest    â”‚
+â”‚ (Weight 0.45)â”‚â”‚ (Weight 0.35)â”‚â”‚ (Weight 0.20)â”‚
+â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜
+       â”‚               â”‚               â”‚
+       â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                       â–¼
          Weighted Calibration Ensemble
-                       │
+                       â”‚
           Ensemble Score S_ML in [0, 1]
-                       ▼
+                       â–¼
            Dynamic Severity Tiering
        (NORMAL, LOW, MEDIUM, HIGH)
 ```
@@ -258,30 +258,30 @@ Even the best ML model will flag a genuine $47^\circ\text{C}$ heatwave as an "an
 $$\text{Final Score} = 0.30 \cdot S_{\text{temporal}} + 0.25 \cdot S_{\text{multivariate}} + 0.25 \cdot S_{\text{physics}} + 0.20 \cdot S_{\text{spatial}}$$
 
 ```
-                      ┌────────────────────────────────────────┐
-                      │    ML Ensemble Flags Anomaly Event     │
-                      └───────────────────┬────────────────────┘
-                                          │
-                   ┌──────────────────────┴──────────────────────┐
-                   ▼                                             ▼
-       ┌────────────────────────┐                   ┌────────────────────────┐
-       │     PILLAR 3: PHYSICS  │                   │    PILLAR 4: SPATIAL   │
-       │ Clausius-Clapeyron     │                   │ Buddy Stations Agree?  │
-       │ Dewpoint ≤ Temperature │                   │ Regional Consistency?  │
-       └───────────┬────────────┘                   └────────────┬───────────┘
-                   │                                             │
+                      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                      â”‚    ML Ensemble Flags Anomaly Event     â”‚
+                      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                          â”‚
+                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                   â–¼                                             â–¼
+       â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+       â”‚     PILLAR 3: PHYSICS  â”‚                   â”‚    PILLAR 4: SPATIAL   â”‚
+       â”‚ Clausius-Clapeyron     â”‚                   â”‚ Buddy Stations Agree?  â”‚
+       â”‚ Dewpoint â‰¤ Temperature â”‚                   â”‚ Regional Consistency?  â”‚
+       â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚                                             â”‚
          Violates Physics?                               Buddy Agrees?
-          ┌────────┴────────┐                          ┌────────┴────────┐
-          ▼                 ▼                          ▼                 ▼
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”                          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”
+          â–¼                 â–¼                          â–¼                 â–¼
      [YES: FAULT]      [NO: PASS]                 [YES: EVENT]      [NO: FAULT]
-          │                 │                          │                 │
-          ▼                 └──────────────┬───────────┘                 ▼
-┌───────────────────┐                      ▼                    ┌───────────────────┐
-│   SENSOR FAULT    │            ┌───────────────────┐          │   SENSOR FAULT    │
-│  Hardware Defect  │            │   GENUINE EVENT   │          │ Spurious Artifact │
-│ Flagged for Field │            │ Real Severe Event │          │ Imputation Kicks  │
-│    Maintenance    │            │ Alert Dispatched  │          │        In         │
-└───────────────────┘            └───────────────────┘          └───────────────────┘
+          â”‚                 â”‚                          â”‚                 â”‚
+          â–¼                 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                 â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                      â–¼                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   SENSOR FAULT    â”‚            â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”          â”‚   SENSOR FAULT    â”‚
+â”‚  Hardware Defect  â”‚            â”‚   GENUINE EVENT   â”‚          â”‚ Spurious Artifact â”‚
+â”‚ Flagged for Field â”‚            â”‚ Real Severe Event â”‚          â”‚ Imputation Kicks  â”‚
+â”‚    Maintenance    â”‚            â”‚ Alert Dispatched  â”‚          â”‚        In         â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜            â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜          â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ### Pillar 1: Temporal Continuity ($W = 0.30$)
@@ -307,7 +307,7 @@ $$\text{Final Score} = 0.30 \cdot S_{\text{temporal}} + 0.25 \cdot S_{\text{mult
   Validates station pressure against elevation above mean sea level ($h$ meters). Allows $\pm30\,\text{hPa}$ for synoptic pressure systems; larger deviations flag barometric transducer failure.
 
 ### Pillar 4: Spatial Peer Correlation ($W = 0.20$)
-* **Buddy Station Triangulation**: Weather systems (cyclones, squall lines, heat domes) operate on synoptic scales ($50\text{–}300\,\text{km}$). A genuine heatwave in Delhi will be observed at both *Delhi Safdarjung* and *Delhi Palam*.
+* **Buddy Station Triangulation**: Weather systems (cyclones, squall lines, heat domes) operate on synoptic scales ($50\text{â€“}300\,\text{km}$). A genuine heatwave in Delhi will be observed at both *Delhi Safdarjung* and *Delhi Palam*.
 * **Distance-Weighted Haversine Analysis**:
   $$d = 2R \arcsin\left(\sqrt{\sin^2\left(\frac{\Delta \phi}{2}\right) + \cos\phi_1 \cos\phi_2 \sin^2\left(\frac{\Delta \lambda}{2}\right)}\right)$$
 * **Consensus Logic**:
@@ -322,7 +322,7 @@ $$\text{Final Score} = 0.30 \cdot S_{\text{temporal}} + 0.25 \cdot S_{\text{mult
 Quality-control officers cannot act on raw probability outputs. SkyGuard AI features an explainability engine that extracts normalized per-feature reconstruction error vectors from the deep neural network:
 $$\text{Importance}_i = \frac{\text{Error}_i}{\sum_{j=1}^{22} \text{Error}_j} \times 100\%$$
 The engine maps the top contributing dimensions to plain English root-cause diagnostics:
-* *"Spike in Air Temperature (+15.2°C) exceeds 10-minute gradient limit while Barmer buddy station shows no change."*
+* *"Spike in Air Temperature (+15.2Â°C) exceeds 10-minute gradient limit while Barmer buddy station shows no change."*
 * *"Relative Humidity stuck at 67.4% for 12 consecutive cycles; zero electrical ADC variance detected."*
 
 ### 9.2 Dual-Source Bayesian Imputation Engine
@@ -353,15 +353,15 @@ Here is the exact millisecond-by-millisecond execution trace of a telemetry obse
             Isolation Forest scores flattened window.
             EnsembleDetector synthesizes weighted ensemble score (S_ML = 0.82 -> HIGH).
 [T + 31 ms] DecisionEngine evaluates 4 pillars:
-            - Temporal: ROC check flags +15°C surge (Score: 20/100 -> FAIL).
-            - Multivariate: Mahalanobis distance = 4.8σ (Score: 35/100 -> FAIL).
+            - Temporal: ROC check flags +15Â°C surge (Score: 20/100 -> FAIL).
+            - Multivariate: Mahalanobis distance = 4.8Ïƒ (Score: 35/100 -> FAIL).
             - Physics: Clausius-Clapeyron vapor envelope exceeded (Score: 40/100 -> FAIL).
-            - Spatial: Buddy AWS Barmer reports normal 32.1°C (Score: 10/100 -> DISCORDANT).
+            - Spatial: Buddy AWS Barmer reports normal 32.1Â°C (Score: 10/100 -> DISCORDANT).
 [T + 36 ms] Decision Synthesis:
             ML anomaly confirmed + Spatial contradiction + Physics violation.
             Verdict: SENSOR FAULT (Confidence: 94.2%).
 [T + 40 ms] SHAPExplainer attributes 68.4% anomaly weight to 'temp_c' rate-of-change.
-[T + 44 ms] ImputationEngine generates corrected temperature estimate (31.8°C).
+[T + 44 ms] ImputationEngine generates corrected temperature estimate (31.8Â°C).
 [T + 48 ms] WebSocketManager broadcasts structured update packet to all connected web clients.
 [T + 55 ms] React 19 Command Center receives update:
             - Map marker flashes red with pulse animation.
@@ -377,40 +377,40 @@ Here is the exact millisecond-by-millisecond execution trace of a telemetry obse
 Every single UI component in SkyGuard AI was purpose-built to solve specific workflow needs of meteorological operators.
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAVIGATION BAR: Title | Connection Status | Mode (Static/Demo/Live) | API Spec | Hide │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ BREADCRUMB DRILL-DOWN: India ➔ Rajasthan ➔ Jaisalmer ➔ Jaisalmer Sam AWS ➔ Sensor #1  │
-├───────────────────────────────────────────────────────┬────────────────────────────────┤
-│ MAIN WORKSPACE (GEOSPATIAL & ANALYTICAL TILES)        │ OPERATIONS SIDEBAR             │
-│                                                       │                                │
-│ ┌───────────────────────────────────────────────────┐ │ ┌────────────────────────────┐ │
-│ │ INTERACTIVE GEOSPATIAL MAP ENGINE                 │ │ │ NETWORK SUMMARY KPIS       │ │
-│ │ • Leaflet GIS (OSM/Light/Dark/Satellite/Topo)     │ │ │ Total: 7 | Normal: 5       │ │
-│ │ • Pulsing Status Pins & Cute Weather Indicators   │ │ │ Events: 1 | Faults: 1      │ │
-│ │ • Vector Schematic Mode & Legend                  │ │ └────────────────────────────┘ │
-│ └───────────────────────────────────────────────────┘ │ ┌────────────────────────────┐ │
-│ ┌───────────────────────────────────────────────────┐ │ │ SCENARIO SELECTOR (5 DEMOS) │ │
-│ │ MAP TIMELINE SLIDER (12:45 to 13:45 Scrubbing)    │ │ │ Baseline, Spike, Heatwave, │ │
-│ └───────────────────────────────────────────────────┘ │ │ Frozen, Drift               │ │
-│ ┌───────────────────────────────────────────────────┐ │ └────────────────────────────┘ │
-│ │ MULTI-VARIATE TELEMETRY INTELLIGENCE CHART        │ │ ┌────────────────────────────┐ │
-│ │ • 1H / 6H / 24H Time Horizon Selection            │ │ │ REAL-TIME ALERTS PANEL     │ │
-│ │ • 5 Modes: Composed / Parity / Envelope / Gauges /│ │ │ Triage filter by severity  │ │
-│ │   Heatmap with Interactive Crosshairs             │ │ │ Click to jump to station   │ │
-│ └───────────────────────────────────────────────────┘ │ └────────────────────────────┘ │
-│ ┌─────────────────────────────────┬─────────────────┐ │                                │
-│ │ 4-PILLAR DECISION PANEL         │ DUAL BME280     │ │                                │
-│ │ • S_anomaly vs S_event meters   │ HARDWARE CARD   │ │                                │
-│ │ • 4 Pillar Status Cards         │ • Sensor 1 vs 2 │ │                                │
-│ │ • Spatial Buddy Network Table   │ • Offset/Drift  │ │                                │
-│ │ • Field Recommended Action      │ • Parity Delta  │ │                                │
-│ └─────────────────────────────────┴─────────────────┘ │                                │
-│ ┌───────────────────────────────────────────────────┐ │                                │
-│ │ ESP32 EDGE QC CHECK PANEL                         │ │                                │
-│ │ Range | Rate | Consensus | Bit Freeze | Integrity │ │                                │
-│ └───────────────────────────────────────────────────┘ │                                │
-└───────────────────────────────────────────────────────┴────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ NAVIGATION BAR: Title | Connection Status | Mode (Static/Demo/Live) | API Spec | Hide â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ BREADCRUMB DRILL-DOWN: India âž” Rajasthan âž” Jaisalmer âž” Jaisalmer Sam AWS âž” Sensor #1  â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ MAIN WORKSPACE (GEOSPATIAL & ANALYTICAL TILES)        â”‚ OPERATIONS SIDEBAR             â”‚
+â”‚                                                       â”‚                                â”‚
+â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚ â”‚ INTERACTIVE GEOSPATIAL MAP ENGINE                 â”‚ â”‚ â”‚ NETWORK SUMMARY KPIS       â”‚ â”‚
+â”‚ â”‚ â€¢ Leaflet GIS (OSM/Light/Dark/Satellite/Topo)     â”‚ â”‚ â”‚ Total: 7 | Normal: 5       â”‚ â”‚
+â”‚ â”‚ â€¢ Pulsing Status Pins & Cute Weather Indicators   â”‚ â”‚ â”‚ Events: 1 | Faults: 1      â”‚ â”‚
+â”‚ â”‚ â€¢ Vector Schematic Mode & Legend                  â”‚ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â”‚ SCENARIO SELECTOR (5 DEMOS) â”‚ â”‚
+â”‚ â”‚ MAP TIMELINE SLIDER (12:45 to 13:45 Scrubbing)    â”‚ â”‚ â”‚ Baseline, Spike, Heatwave, â”‚ â”‚
+â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â”‚ Frozen, Drift               â”‚ â”‚
+â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â”‚ â”‚ MULTI-VARIATE TELEMETRY INTELLIGENCE CHART        â”‚ â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚ â”‚ â€¢ 1H / 6H / 24H Time Horizon Selection            â”‚ â”‚ â”‚ REAL-TIME ALERTS PANEL     â”‚ â”‚
+â”‚ â”‚ â€¢ 5 Modes: Composed / Parity / Envelope / Gauges /â”‚ â”‚ â”‚ Triage filter by severity  â”‚ â”‚
+â”‚ â”‚   Heatmap with Interactive Crosshairs             â”‚ â”‚ â”‚ Click to jump to station   â”‚ â”‚
+â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚                                â”‚
+â”‚ â”‚ 4-PILLAR DECISION PANEL         â”‚ DUAL BME280     â”‚ â”‚                                â”‚
+â”‚ â”‚ â€¢ S_anomaly vs S_event meters   â”‚ HARDWARE CARD   â”‚ â”‚                                â”‚
+â”‚ â”‚ â€¢ 4 Pillar Status Cards         â”‚ â€¢ Sensor 1 vs 2 â”‚ â”‚                                â”‚
+â”‚ â”‚ â€¢ Spatial Buddy Network Table   â”‚ â€¢ Offset/Drift  â”‚ â”‚                                â”‚
+â”‚ â”‚ â€¢ Field Recommended Action      â”‚ â€¢ Parity Delta  â”‚ â”‚                                â”‚
+â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚                                â”‚
+â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚                                â”‚
+â”‚ â”‚ ESP32 EDGE QC CHECK PANEL                         â”‚ â”‚                                â”‚
+â”‚ â”‚ Range | Rate | Consensus | Bit Freeze | Integrity â”‚ â”‚                                â”‚
+â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚                                â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ### 11.1 Navigation Bar & Global Controls
@@ -427,11 +427,11 @@ Every single UI component in SkyGuard AI was purpose-built to solve specific wor
 
 ### 11.2 5-Level Geographic Drill-Down (`Breadcrumbs.tsx`)
 Enables fluid zooming from national overview down to microscopic sensor silicon:
-1. **Level 1: India National Level** — High-level network status across all states.
-2. **Level 2: State Level** — State-wide meteorological conditions and district boundaries.
-3. **Level 3: District Level** — Focuses on specific meteorological divisions.
-4. **Level 4: AWS Station Level** — Deep dive into station telemetry, decisions, and hardware.
-5. **Level 5: Dual Sensor Level** — Sub-assembly diagnostics of individual BME280 chips.
+1. **Level 1: India National Level** â€” High-level network status across all states.
+2. **Level 2: State Level** â€” State-wide meteorological conditions and district boundaries.
+3. **Level 3: District Level** â€” Focuses on specific meteorological divisions.
+4. **Level 4: AWS Station Level** â€” Deep dive into station telemetry, decisions, and hardware.
+5. **Level 5: Dual Sensor Level** â€” Sub-assembly diagnostics of individual BME280 chips.
 
 ### 11.3 Dual-Engine Geospatial Map
 1. **Actual India Map (`ActualIndiaMap.tsx`)**:
@@ -450,7 +450,7 @@ Enables fluid zooming from national overview down to microscopic sensor silicon:
 2. **Vector Schematic Map (`IndiaVectorMap.tsx` / `StateVectorMap.tsx`)**:
    * Scalable vector graphic alternative for low-bandwidth environments or high-contrast schematic overviews.
 3. **Non-Monitored District Grounding Notice**:
-   * Clicking any district without a SkyGuard station displays an explicit badge: `⚪ No SkyGuard observation available`. This prevents false confidence and enforces scientific truthfulness.
+   * Clicking any district without a SkyGuard station displays an explicit badge: `âšª No SkyGuard observation available`. This prevents false confidence and enforces scientific truthfulness.
 4. **Map Legend (`MapLegend.tsx`)**: Decodes pin color semantics and weather condition symbols.
 5. **Scrubbable Map Timeline (`MapTimeline.tsx`)**:
    * 5 time-slice frames (`12:45`, `13:00`, `13:15`, `13:30`, `13:45 IST`).
@@ -575,4 +575,5 @@ Recent operational updates to the V2 architecture specifically harden the backen
 
 4. **AsyncIO Event Loop Resilience:**
    Explicitly initialized \WindowsSelectorEventLoopPolicy\ in \main.py\ to bypass standard \IocpProactor\ limitations, dramatically increasing concurrent WebSocket and HTTP socket stability under heavy telemetry simulation loads.
+
 

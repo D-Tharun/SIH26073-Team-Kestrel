@@ -1,11 +1,11 @@
-# SkyGuard AI — ESP32 Hardware Integration
+﻿# SkyGuard AI â€” ESP32 Hardware Integration
 
 ## Wiring Diagram
 
 This document outlines the wiring for the SkyGuard AI edge sensing node using an ESP32 microcontroller and two BME280 environment sensors for redundancy.
 
 ### Components Needed
-1.  **ESP32 Development Board** (e.g., ESP32-WROOM-32D)
+1.  **ESP32 Development Board** (e.g., ESP32-C3-Mini)
 2.  **2x BME280 Sensors** (Temperature, Humidity, Pressure)
 3.  **Breadboard & Jumper Wires**
 4.  **Power Supply** (5V Micro USB or 3.3V battery pack)
@@ -36,5 +36,6 @@ The BME280 sensors communicate over the I2C bus. We will connect both sensors to
 
 ### Complete Technical Guide
 For the full end-to-end guide including MQTT broker configuration, Mosquitto setup, packet schemas, deep-sleep battery calculations, and live FastAPI backend integration, see:
-👉 [HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md](../../HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md)
+ðŸ‘‰ [HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md](../../HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md)
+
 

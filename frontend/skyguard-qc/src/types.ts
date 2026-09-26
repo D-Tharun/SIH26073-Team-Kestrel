@@ -1,23 +1,23 @@
-/**
+﻿/**
  * SkyGuard AI - National Meteorological Observation Quality Control Command Center
  * Core Data Models & Type Definitions
  */
 
 export type SkyGuardQuality =
-  | 'normal'          // 🟢 Observation consistent with available evidence
-  | 'genuine_event'   // 🔵 Observation unusual, but evidence supports genuine atmospheric event
-  | 'sensor_fault'    // 🔴 Evidence suggests station or data-system problem
-  | 'uncertain'       // 🟠 Evidence conflicting or insufficient
-  | 'no_data';        // ⚪ No SkyGuard observation available for this district/station
+  | 'normal'          // ðŸŸ¢ Observation consistent with available evidence
+  | 'genuine_event'   // ðŸ”µ Observation unusual, but evidence supports genuine atmospheric event
+  | 'sensor_fault'    // ðŸ”´ Evidence suggests station or data-system problem
+  | 'uncertain'       // ðŸŸ  Evidence conflicting or insufficient
+  | 'no_data';        // âšª No SkyGuard observation available for this district/station
 
 export type AtmosphericState =
-  | 'warm_humid'      // 🌤️ Warm & Humid
-  | 'extreme_heat'    // 🔥 Extreme Heat
-  | 'cold'            // ❄️ Cold conditions
-  | 'high_humidity'   // 💧 High Humidity
-  | 'heavy_rain'      // 🌧️ Heavy Precipitation
-  | 'dry_heat'        // ☀️ Dry Heat
-  | 'moderate';       // ⛅ Moderate
+  | 'warm_humid'      // ðŸŒ¤ï¸ Warm & Humid
+  | 'extreme_heat'    // ðŸ”¥ Extreme Heat
+  | 'cold'            // â„ï¸ Cold conditions
+  | 'high_humidity'   // ðŸ’§ High Humidity
+  | 'heavy_rain'      // ðŸŒ§ï¸ Heavy Precipitation
+  | 'dry_heat'        // â˜€ï¸ Dry Heat
+  | 'moderate';       // â›… Moderate
 
 export type DataMode =
   | 'CONTROLLED_SCENARIO'
@@ -119,7 +119,7 @@ export interface AWSStation {
   lng: number;
   elevationMeters: number;
   hardwareModel: string;
-  mcuType: string; // e.g. "ESP32-WROOM-32D"
+  mcuType: string; // e.g. "ESP32-C3-Mini"
   firmwareVersion: string;
   lastTransmission: string;
   quality: SkyGuardQuality;
@@ -225,3 +225,4 @@ export type NavigationLevel =
   | { type: 'district'; stateId: string; districtId: string }
   | { type: 'station'; stationId: string }
   | { type: 'sensor'; stationId: string; sensorId: 'bme280_1' | 'bme280_2' };
+

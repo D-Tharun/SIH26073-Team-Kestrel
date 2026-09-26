@@ -1,11 +1,11 @@
-# SkyGuard AI — Hardware Wiring & Backend Integration Guide
+﻿# SkyGuard AI â€” Hardware Wiring & Backend Integration Guide
 ## Dual BME280 + ESP32 Microcontroller Integration with SkyGuard AI Backend
 
 ---
 
 ## 1. Overview & Hardware Architecture
 
-The SkyGuard AI field sensing node utilizes an **ESP32-WROOM-32D** microcontroller connected to **two physical Bosch BME280 environmental sensors** over a shared I2C bus. 
+The SkyGuard AI field sensing node utilizes an **ESP32-C3-Mini** microcontroller connected to **two physical Bosch BME280 environmental sensors** over a shared I2C bus. 
 
 ### Why Dual Sensors?
 In mission-critical automated weather stations (AWS), a single sensor failure cannot be distinguished from a sudden microclimatic anomaly. By deploying dual redundant sensors on the same bus with distinct I2C slave addresses:
@@ -14,44 +14,44 @@ In mission-critical automated weather stations (AWS), a single sensor failure ca
 3. Observations are validated prior to radio transmission, conserving battery and bandwidth.
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        SKYGUARD SENSING NODE                           │
-│                                                                        │
-│   ┌───────────────────────────┐      ┌───────────────────────────┐     │
-│   │   Bosch BME280 Sensor 1   │      │   Bosch BME280 Sensor 2   │     │
-│   │    (Primary - SDO=GND)    │      │   (Redundant - SDO=3V3)   │     │
-│   │      I2C Addr: 0x76       │      │      I2C Addr: 0x77       │     │
-│   └─────────────┬─────────────┘      └─────────────┬─────────────┘     │
-│                 │                                  │                   │
-│                 │           Shared I2C Bus         │                   │
-│                 │      (SDA=GPIO21, SCL=GPIO22)    │                   │
-│                 └─────────────────┬────────────────┘                   │
-│                                   │                                    │
-│                     ┌─────────────▼──────────────┐                     │
-│                     │    ESP32-WROOM-32D MCU     │                     │
-│                     │  • Edge QC Validation      │                     │
-│                     │  • Deep Sleep Management   │                     │
-│                     │  • WiFi & MQTT Client      │                     │
-│                     └─────────────┬──────────────┘                     │
-└───────────────────────────────────┼────────────────────────────────────┘
-                                    │ WiFi / MQTT (Port 1883)
-                                    ▼
-                     ┌─────────────────────────────┐
-                     │    MQTT Broker (Mosquitto)  │
-                     └──────────────┬──────────────┘
-                                    │ Subscribed: skyguard/+/telemetry
-                                    ▼
-                     ┌─────────────────────────────┐
-                     │ SkyGuard AI FastAPI Backend │
-                     │ • Feature Engineering (22D) │
-                     │ • Triple ML Ensemble        │
-                     │ • 4-Pillar Decision Engine  │
-                     └──────────────┬──────────────┘
-                                    │ WebSocket (/ws)
-                                    ▼
-                     ┌─────────────────────────────┐
-                     │ React 19 Command Center UI  │
-                     └─────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                        SKYGUARD SENSING NODE                           â”‚
+â”‚                                                                        â”‚
+â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”‚
+â”‚   â”‚   Bosch BME280 Sensor 1   â”‚      â”‚   Bosch BME280 Sensor 2   â”‚     â”‚
+â”‚   â”‚    (Primary - SDO=GND)    â”‚      â”‚   (Redundant - SDO=3V3)   â”‚     â”‚
+â”‚   â”‚      I2C Addr: 0x76       â”‚      â”‚      I2C Addr: 0x77       â”‚     â”‚
+â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â”‚
+â”‚                 â”‚                                  â”‚                   â”‚
+â”‚                 â”‚           Shared I2C Bus         â”‚                   â”‚
+â”‚                 â”‚      (SDA=GPIO21, SCL=GPIO22)    â”‚                   â”‚
+â”‚                 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                   â”‚
+â”‚                                   â”‚                                    â”‚
+â”‚                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                     â”‚
+â”‚                     â”‚    ESP32-C3-Mini MCU     â”‚                     â”‚
+â”‚                     â”‚  â€¢ Edge QC Validation      â”‚                     â”‚
+â”‚                     â”‚  â€¢ Deep Sleep Management   â”‚                     â”‚
+â”‚                     â”‚  â€¢ WiFi & MQTT Client      â”‚                     â”‚
+â”‚                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                     â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                    â”‚ WiFi / MQTT (Port 1883)
+                                    â–¼
+                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                     â”‚    MQTT Broker (Mosquitto)  â”‚
+                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                    â”‚ Subscribed: skyguard/+/telemetry
+                                    â–¼
+                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                     â”‚ SkyGuard AI FastAPI Backend â”‚
+                     â”‚ â€¢ Feature Engineering (22D) â”‚
+                     â”‚ â€¢ Triple ML Ensemble        â”‚
+                     â”‚ â€¢ 4-Pillar Decision Engine  â”‚
+                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                    â”‚ WebSocket (/ws)
+                                    â–¼
+                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                     â”‚ React 19 Command Center UI  â”‚
+                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -60,11 +60,11 @@ In mission-critical automated weather stations (AWS), a single sensor failure ca
 
 | Item | Component | Specification | Quantity | Purpose |
 | :---: | :--- | :--- | :---: | :--- |
-| **1** | **ESP32 DevKit** | ESP32-WROOM-32D (30-pin or 38-pin) | 1 | Microcontroller running Edge QC & MQTT client |
+| **1** | **ESP32 DevKit** | ESP32-C3-Mini (30-pin or 38-pin) | 1 | Microcontroller running Edge QC & MQTT client |
 | **2** | **Sensor 1** | Bosch BME280 Breakout (6-pin or 4-pin) | 1 | Primary Temperature, Humidity, Pressure sensor |
 | **3** | **Sensor 2** | Bosch BME280 Breakout (6-pin or 4-pin) | 1 | Secondary Redundant sensor for consensus |
 | **4** | **Breadboard / PCB** | Half-size solderless breadboard or perfboard | 1 | Component mounting |
-| **5** | **Jumper Wires** | Male-to-Male / Male-to-Female | 10–12 | Circuit interconnects |
+| **5** | **Jumper Wires** | Male-to-Male / Male-to-Female | 10â€“12 | Circuit interconnects |
 | **6** | **Pull-Up Resistors** | $4.7\,\text{k}\Omega$ (Optional for long wires $>20\,\text{cm}$) | 2 | I2C SDA and SCL bus line stabilization |
 | **7** | **Power Supply** | Micro-USB Cable (5V 1A) or 3.7V 18650 LiPo | 1 | System power |
 
@@ -97,31 +97,31 @@ Both BME280 sensors share the exact same I2C data lines (`SDA` on GPIO 21 and `S
 ### 3.3 Visual Circuit ASCII Schematic
 
 ```
-                          ESP32-WROOM-32D
-                        ┌─────────────────┐
-                        │                 │
-                  3V3 ──┤ [3V3]     [GND] ├── GND
-                        │                 │
-              GPIO 21 ──┤ [D21]     [D22] ├── GPIO 22 (SCL)
-               (SDA)    │                 │
-                        └─────────────────┘
-                           │   │    │   │
-           ┌───────────────┘   │    │   └────────────────┐
-           │                   │    │                    │
-           │      ┌────────────┘    └────────────┐       │
-           │      │                              │       │
-           ▼      ▼                              ▼       ▼
-    ┌──────────────────────────┐          ┌──────────────────────────┐
-    │  BME280 - SENSOR 1       │          │  BME280 - SENSOR 2       │
-    │  (Primary Address 0x76)  │          │  (Backup Address 0x77)   │
-    ├──────────────────────────┤          ├──────────────────────────┤
-    │ VCC  ◄── 3V3 Rail        │          │ VCC  ◄── 3V3 Rail        │
-    │ GND  ◄── GND Rail        │          │ GND  ◄── GND Rail        │
-    │ SCL  ◄── GPIO 22         │          │ SCL  ◄── GPIO 22         │
-    │ SDA  ◄── GPIO 21         │          │ SDA  ◄── GPIO 21         │
-    │ CSB  ◄── 3V3 (I2C Mode)  │          │ CSB  ◄── 3V3 (I2C Mode)  │
-    │ SDO  ◄── GND (0x76)      │          │ SDO  ◄── 3V3 (0x77)      │
-    └──────────────────────────┘          └──────────────────────────┘
+                          ESP32-C3-Mini
+                        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                        â”‚                 â”‚
+                  3V3 â”€â”€â”¤ [3V3]     [GND] â”œâ”€â”€ GND
+                        â”‚                 â”‚
+              GPIO 21 â”€â”€â”¤ [D21]     [D22] â”œâ”€â”€ GPIO 22 (SCL)
+               (SDA)    â”‚                 â”‚
+                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                           â”‚   â”‚    â”‚   â”‚
+           â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜   â”‚    â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+           â”‚                   â”‚    â”‚                    â”‚
+           â”‚      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”       â”‚
+           â”‚      â”‚                              â”‚       â”‚
+           â–¼      â–¼                              â–¼       â–¼
+    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+    â”‚  BME280 - SENSOR 1       â”‚          â”‚  BME280 - SENSOR 2       â”‚
+    â”‚  (Primary Address 0x76)  â”‚          â”‚  (Backup Address 0x77)   â”‚
+    â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤          â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+    â”‚ VCC  â—„â”€â”€ 3V3 Rail        â”‚          â”‚ VCC  â—„â”€â”€ 3V3 Rail        â”‚
+    â”‚ GND  â—„â”€â”€ GND Rail        â”‚          â”‚ GND  â—„â”€â”€ GND Rail        â”‚
+    â”‚ SCL  â—„â”€â”€ GPIO 22         â”‚          â”‚ SCL  â—„â”€â”€ GPIO 22         â”‚
+    â”‚ SDA  â—„â”€â”€ GPIO 21         â”‚          â”‚ SDA  â—„â”€â”€ GPIO 21         â”‚
+    â”‚ CSB  â—„â”€â”€ 3V3 (I2C Mode)  â”‚          â”‚ CSB  â—„â”€â”€ 3V3 (I2C Mode)  â”‚
+    â”‚ SDO  â—„â”€â”€ GND (0x76)      â”‚          â”‚ SDO  â—„â”€â”€ 3V3 (0x77)      â”‚
+    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜          â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -133,7 +133,7 @@ For real field automated weather stations, continuous WiFi operation depletes a 
 1. **Wake Up**: ESP32 boots via internal RTC timer.
 2. **Read Sensors**: Samples Sensor 1 and Sensor 2 over I2C ($\approx 50\,\text{ms}$).
 3. **Edge QC Check**: Evaluates consensus, bounds, and frozen bit status ($\approx 10\,\text{ms}$).
-4. **Transmit**: Connects to WiFi, publishes MQTT telemetry payload ($\approx 1.5\text{–}3\,\text{seconds}$).
+4. **Transmit**: Connects to WiFi, publishes MQTT telemetry payload ($\approx 1.5\text{â€“}3\,\text{seconds}$).
 5. **Deep Sleep**: Shuts down WiFi, CPU, and peripherals, entering deep sleep ($\approx 10\mu\text{A}$) for 10 minutes (`SLEEP_SECONDS = 600`).
 
 ### Battery Life Calculation (2500mAh 18650 Li-Ion Cell)
@@ -147,14 +147,14 @@ For real field automated weather stations, continuous WiFi operation depletes a 
 ## 5. Firmware Configuration & Flashing
 
 The firmware is located in your codebase at:
-📄 **[`server/hardware/esp32_firmware.ino`](file:///d:/testing/server/hardware/esp32_firmware.ino)**
+ðŸ“„ **[`server/hardware/esp32_firmware.ino`](file:///d:/testing/server/hardware/esp32_firmware.ino)**
 
 ### 5.1 Required Arduino IDE Libraries
 Install via **Arduino IDE Library Manager** (`Ctrl + Shift + I`):
 1. `Adafruit BME280 Library` (by Adafruit)
 2. `Adafruit Unified Sensor` (by Adafruit)
 3. `PubSubClient` (by Nick O'Leary)
-4. `ArduinoJson` (by Benoît Blanchon, version 6.x or 7.x)
+4. `ArduinoJson` (by BenoÃ®t Blanchon, version 6.x or 7.x)
 
 ### 5.2 Board Configuration
 * **Board**: `ESP32 Dev Module` (or `DOIT ESP32 DEVKIT V1`)
@@ -301,9 +301,9 @@ BME280 Sensor 2 (0x77) initialized.
 Connecting to WiFi: MyHomeNetwork......
 WiFi connected. IP address: 192.168.1.145
 Connecting to MQTT broker...connected.
-Sensor 1 -> T: 29.40°C, RH: 73.20%, P: 1007.30 hPa
-Sensor 2 -> T: 29.50°C, RH: 72.90%, P: 1007.20 hPa
-Edge QC: Delta T = 0.10°C (PASS)
+Sensor 1 -> T: 29.40Â°C, RH: 73.20%, P: 1007.30 hPa
+Sensor 2 -> T: 29.50Â°C, RH: 72.90%, P: 1007.20 hPa
+Edge QC: Delta T = 0.10Â°C (PASS)
 Publishing to skyguard/Jaisalmer_Sam/telemetry: 
 {"station_id":"Jaisalmer_Sam","timestamp":"auto","temperature":29.45,"humidity":73.05,"pressure":1007.25,"hardware_qc":"pass"}
 Entering deep sleep for 600 seconds.
@@ -336,15 +336,16 @@ You will see the raw JSON string arriving every time the ESP32 transmits.
 | **"CRITICAL: No sensors detected"** | SDA / SCL lines reversed, or poor breadboard contact. | Swap GPIO 21 (SDA) and GPIO 22 (SCL). Verify 3.3V power rails with a multimeter. |
 | **ESP32 repeatedly restarts (Brownout detector)** | WiFi current spike ($>200\text{mA}$) causes voltage sag on USB port. | Connect ESP32 to an external 5V 1A powered USB hub or add a $100\mu\text{F}$ capacitor across 3V3 and GND. |
 | **MQTT `rc=-2` (Connection Failed)** | Wrong IP address or firewall blocking port 1883. | Check your host PC IP using `ipconfig`. Ensure Windows Defender Firewall allows inbound TCP traffic on port 1883. |
-| **Sensors report 0°C or 100% RH** | Sensor breakout is in SPI mode instead of I2C. | Tie the **CSB** pin of both sensors to **3V3**. |
+| **Sensors report 0Â°C or 100% RH** | Sensor breakout is in SPI mode instead of I2C. | Tie the **CSB** pin of both sensors to **3V3**. |
 | **Backend logs: `paho-mqtt not installed`** | Missing Python MQTT client package in virtual environment. | Run `pip install paho-mqtt` in `d:\testing\venv`. |
 
 ---
 
 ## 10. Summary Documentation File Location
 This complete hardware wiring and integration specification is saved permanently in your workspace at:
-📄 **[`d:\testing\HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md`](file:///d:/testing/HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md)**
+ðŸ“„ **[`d:\testing\HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md`](file:///d:/testing/HARDWARE_WIRING_AND_BACKEND_INTEGRATION.md)**
 Also review:
 * Firmware Code: [`server/hardware/esp32_firmware.ino`](file:///d:/testing/server/hardware/esp32_firmware.ino)
 * Backend Ingestion Handler: [`server/streaming/mqtt_handler.py`](file:///d:/testing/server/streaming/mqtt_handler.py)
 * Backend Main Application: [`server/main.py`](file:///d:/testing/server/main.py)
+

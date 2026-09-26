@@ -1,9 +1,9 @@
-/**
+﻿/**
  * SkyGuard AI - National Meteorological Observation Quality Control Command Center
  * Grounded Mock & Demo Data Layer
  * 
  * Strict Constraint: Exactly 7 actual stations. No fabricated stations.
- * Non-monitored districts clearly display: "⚪ No SkyGuard observation available".
+ * Non-monitored districts clearly display: "âšª No SkyGuard observation available".
  */
 
 import {
@@ -30,7 +30,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 80.1809,
     elevationMeters: 16,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:42:00 IST',
     quality: 'normal',
@@ -120,7 +120,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'Within expected physical co-location tolerances (ΔT ≤ 0.5°C)',
+        statusText: 'Within expected physical co-location tolerances (Î”T â‰¤ 0.5Â°C)',
       },
     },
     edgeQC: {
@@ -145,7 +145,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 96,
           title: 'Temporal Continuity',
           metricLabel: 'dT/dt',
-          metricValue: '+0.3°C / hr',
+          metricValue: '+0.3Â°C / hr',
           rationale: 'Diurnal solar heating curve smoothly continuous; no abrupt step jumps or frozen telemetry.',
         },
         multivariate: {
@@ -153,7 +153,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 93,
           title: 'Multivariate Psychrometrics',
           metricLabel: 'Dew Point / T Spread',
-          metricValue: '5.3°C spread',
+          metricValue: '5.3Â°C spread',
           rationale: 'Psychrometric temperature-humidity inverse correlation adheres to standard August marine profile.',
         },
         physics: {
@@ -200,7 +200,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 70.9083,
     elevationMeters: 225,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:35:00 IST',
     quality: 'normal',
@@ -290,7 +290,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.6,
         rhThresholdPercent: 3.5,
         pressureThresholdHpa: 0.8,
-        statusText: 'Dual sensors concordant (ΔT = 0.2°C). High temp confirmed by redundant hardware.',
+        statusText: 'Dual sensors concordant (Î”T = 0.2Â°C). High temp confirmed by redundant hardware.',
       },
     },
     edgeQC: {
@@ -307,7 +307,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
       confidencePercent: 89,
       sAnomaly: 82,
       sEvent: 88,
-      assessment: '49.6°C observation is extreme relative to 30-year climatology, but supported by dual hardware agreement, sensible psychrometric decline, and synoptic regional heat advection.',
+      assessment: '49.6Â°C observation is extreme relative to 30-year climatology, but supported by dual hardware agreement, sensible psychrometric decline, and synoptic regional heat advection.',
       recommendedAction: 'Issue IMD Red Alert for severe heatwave. Do NOT discard as sensor glitch.',
       pillars: {
         temporal: {
@@ -315,7 +315,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 91,
           title: 'Temporal Trend Validation',
           metricLabel: 'Heating Rate',
-          metricValue: '+1.6°C / hr (Gradual)',
+          metricValue: '+1.6Â°C / hr (Gradual)',
           rationale: 'Heating matches solar radiation ramp without sudden unphysical steps.',
         },
         multivariate: {
@@ -331,15 +331,15 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 86,
           title: 'Surface Energy Balance',
           metricLabel: 'Thermal Radiance',
-          metricValue: '860 W/m² Insolation',
-          rationale: 'Albedo, wind advection, and cloud-free skies permit thermodynamic equilibrium at 49.6°C.',
+          metricValue: '860 W/mÂ² Insolation',
+          rationale: 'Albedo, wind advection, and cloud-free skies permit thermodynamic equilibrium at 49.6Â°C.',
         },
         spatial: {
           status: 'genuine_event',
           confidenceScore: 90,
           title: 'Regional Advection Coherence',
           metricLabel: 'Cluster Coherence',
-          metricValue: 'Barmer 49.1°C, Bikaner 48.9°C',
+          metricValue: 'Barmer 49.1Â°C, Bikaner 48.9Â°C',
           rationale: 'Neighboring synoptic stations confirm contiguous 300km heat dome across western Rajasthan.',
         },
       },
@@ -382,7 +382,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 77.2069,
     elevationMeters: 216,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:40:00 IST',
     quality: 'normal',
@@ -472,7 +472,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'CRITICAL DISAGREEMENT: Sensor #1 (4.2°C) vs Sensor #2 (28.6°C). Delta ΔT = 24.4°C exceeds threshold.',
+        statusText: 'CRITICAL DISAGREEMENT: Sensor #1 (4.2Â°C) vs Sensor #2 (28.6Â°C). Delta Î”T = 24.4Â°C exceeds threshold.',
       },
     },
     edgeQC: {
@@ -490,15 +490,15 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
       sAnomaly: 96,
       sEvent: 74,
       primaryAnomalyType: 'Water Ingress / Short-Circuit Drop on Sensor #1 during Convective Storm',
-      assessment: 'CRITICAL DIAGNOSIS: A genuine thunderstorm squall occurred across Delhi-NCR (causing true cooling from 38°C to 28°C), BUT Safdarjung Sensor #1 suffered a rain-wetting bridge defect dropping to 4.2°C.',
-      recommendedAction: 'Flag Sensor #1 as FAULTY. Fallback to Sensor #2 telemetry (28.6°C) for national weather synthesis.',
+      assessment: 'CRITICAL DIAGNOSIS: A genuine thunderstorm squall occurred across Delhi-NCR (causing true cooling from 38Â°C to 28Â°C), BUT Safdarjung Sensor #1 suffered a rain-wetting bridge defect dropping to 4.2Â°C.',
+      recommendedAction: 'Flag Sensor #1 as FAULTY. Fallback to Sensor #2 telemetry (28.6Â°C) for national weather synthesis.',
       pillars: {
         temporal: {
           status: 'sensor_fault',
           confidenceScore: 97,
           title: 'Temporal Continuity',
           metricLabel: 'dT/dt Spike',
-          metricValue: '-26.8°C in 30 min',
+          metricValue: '-26.8Â°C in 30 min',
           rationale: 'Exceeds maximum physical atmospheric temperature gradient even during microburst events.',
         },
         multivariate: {
@@ -506,7 +506,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 94,
           title: 'Psychrometric Consistency',
           metricLabel: 'Wet-bulb Collapse',
-          metricValue: '4.2°C at 99.4% RH',
+          metricValue: '4.2Â°C at 99.4% RH',
           rationale: 'Saturated cold pocket inconsistent with regional enthalpy and boundary layer sounding.',
         },
         physics: {
@@ -515,7 +515,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           title: 'Thermodynamic Boundary',
           metricLabel: 'Absolute Energy Deficit',
           metricValue: 'Violation',
-          rationale: 'Summer solar noon in Delhi cannot produce sub-5°C ambient air without intense ground freezing.',
+          rationale: 'Summer solar noon in Delhi cannot produce sub-5Â°C ambient air without intense ground freezing.',
         },
         spatial: {
           status: 'genuine_event', // Nearby regional squall is REAL!
@@ -523,7 +523,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           title: 'Spatial Peer Context',
           metricLabel: 'NCR Squall Network',
           metricValue: 'Regional Squall Confirmed',
-          rationale: 'NCR stations (Palam 28.2°C, Noida 28.9°C) confirm convective gust front, proving storm is REAL, but Safdarjung Sensor #1 reading is FAULTY.',
+          rationale: 'NCR stations (Palam 28.2Â°C, Noida 28.9Â°C) confirm convective gust front, proving storm is REAL, but Safdarjung Sensor #1 reading is FAULTY.',
         },
       },
       buddies: [
@@ -565,7 +565,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 77.1734,
     elevationMeters: 2205,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:30:00 IST',
     quality: 'normal',
@@ -655,7 +655,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'Dual sensors concordant (ΔT = 0.1°C). Hardware functioning normally.',
+        statusText: 'Dual sensors concordant (Î”T = 0.1Â°C). Hardware functioning normally.',
       },
     },
     edgeQC: {
@@ -680,7 +680,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 92,
           title: 'Temporal Continuity',
           metricLabel: 'Alpine Lapse Cycle',
-          metricValue: '+0.4°C / hr',
+          metricValue: '+0.4Â°C / hr',
           rationale: 'Diurnal cycle smooth and continuous with mountain thermal breeze.',
         },
         multivariate: {
@@ -696,7 +696,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 90,
           title: 'Thermodynamic Bounds',
           metricLabel: 'Environmental Lapse',
-          metricValue: '6.5°C / km valid',
+          metricValue: '6.5Â°C / km valid',
           rationale: 'Adheres to environmental lapse rate calculated against regional plain baseline.',
         },
         spatial: {
@@ -723,7 +723,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 77.6713,
     elevationMeters: 920,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:41:00 IST',
     quality: 'normal',
@@ -813,7 +813,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'Within expected difference (ΔT = 0.1°C)',
+        statusText: 'Within expected difference (Î”T = 0.1Â°C)',
       },
     },
     edgeQC: {
@@ -838,7 +838,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 97,
           title: 'Temporal Continuity',
           metricLabel: 'dT/dt Rate',
-          metricValue: '+0.2°C / hr',
+          metricValue: '+0.2Â°C / hr',
           rationale: 'Clean diurnal curve.',
         },
         multivariate: {
@@ -881,7 +881,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 72.8777,
     elevationMeters: 14,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:43:00 IST',
     quality: 'normal',
@@ -971,7 +971,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'Within expected difference (ΔT = 0.1°C)',
+        statusText: 'Within expected difference (Î”T = 0.1Â°C)',
       },
     },
     edgeQC: {
@@ -996,7 +996,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 96,
           title: 'Temporal Continuity',
           metricLabel: 'Continuous',
-          metricValue: '+0.3°C / hr',
+          metricValue: '+0.3Â°C / hr',
           rationale: 'Diurnal sea breeze heating curve intact.',
         },
         multivariate: {
@@ -1039,7 +1039,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
     lng: 91.5822,
     elevationMeters: 1430,
     hardwareModel: 'SkyGuard-FieldStation-V2',
-    mcuType: 'ESP32-WROOM-32D',
+    mcuType: 'ESP32-C3-Mini',
     firmwareVersion: 'v2.4.1-edgeQC',
     lastTransmission: '13:38:00 IST',
     quality: 'normal',
@@ -1129,7 +1129,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
         tempThresholdC: 0.5,
         rhThresholdPercent: 3.0,
         pressureThresholdHpa: 0.8,
-        statusText: 'Within expected difference (ΔT = 0.1°C)',
+        statusText: 'Within expected difference (Î”T = 0.1Â°C)',
       },
     },
     edgeQC: {
@@ -1162,7 +1162,7 @@ export const INITIAL_AWS_STATIONS: Record<string, AWSStation> = {
           confidenceScore: 93,
           title: 'Psychrometrics',
           metricLabel: 'Near-zero Dew Spread',
-          metricValue: '0.3°C spread',
+          metricValue: '0.3Â°C spread',
           rationale: 'Fog and saturation typical of Khasi Hills.',
         },
         physics: {
@@ -1202,8 +1202,8 @@ export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = {
     stateName: 'Tamil Nadu',
     targetQuality: 'normal',
     subtitle: 'Standard coastal diurnal progression with verified dual-sensor consensus',
-    operationalSummary: 'Station reports 29.4°C, 73.2% RH, 1007.3 hPa. BME280 #1 and #2 agree within 0.1°C. Diurnal curve is smooth and correlates with regional synoptic peninsular stations.',
-    whySkyGuardDecided: 'Both hardware sensors concordant. Temporal rate of change (+0.3°C/hr) is within physical limits. Thermodynamic balance verifies marine layer profile.',
+    operationalSummary: 'Station reports 29.4Â°C, 73.2% RH, 1007.3 hPa. BME280 #1 and #2 agree within 0.1Â°C. Diurnal curve is smooth and correlates with regional synoptic peninsular stations.',
+    whySkyGuardDecided: 'Both hardware sensors concordant. Temporal rate of change (+0.3Â°C/hr) is within physical limits. Thermodynamic balance verifies marine layer profile.',
     distinguishingPrinciple: 'Baseline operational reliability: zero false-positives under normal atmospheric conditions.',
   },
 
@@ -1215,9 +1215,9 @@ export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = {
     targetStationName: 'Chennai Meenambakkam AWS',
     stateName: 'Tamil Nadu',
     targetQuality: 'sensor_fault',
-    subtitle: 'Unphysical 52.8°C spike rejected by dual-sensor discordance and spatial peer test',
-    operationalSummary: 'Primary BME280 #1 spiked to 52.8°C (+22.8°C jump in 15 min), while redundant BME280 #2 remained steady at 30.1°C. Edge QC flagged rate-of-change and sensor agreement failures.',
-    whySkyGuardDecided: 'S_anomaly = 94/100, S_event = 4/100. Dual sensors disagree by 22.7°C. Surrounding Tamil Nadu stations report 29.8°C–30.5°C. Unambiguous hardware/sensor defect.',
+    subtitle: 'Unphysical 52.8Â°C spike rejected by dual-sensor discordance and spatial peer test',
+    operationalSummary: 'Primary BME280 #1 spiked to 52.8Â°C (+22.8Â°C jump in 15 min), while redundant BME280 #2 remained steady at 30.1Â°C. Edge QC flagged rate-of-change and sensor agreement failures.',
+    whySkyGuardDecided: 'S_anomaly = 94/100, S_event = 4/100. Dual sensors disagree by 22.7Â°C. Surrounding Tamil Nadu stations report 29.8Â°Câ€“30.5Â°C. Unambiguous hardware/sensor defect.',
     distinguishingPrinciple: 'Isolating hardware defects: immediate rejection of unphysical temperature spikes preventing false heatwave declarations.',
   },
 
@@ -1229,9 +1229,9 @@ export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = {
     targetStationName: 'Jaisalmer Desert AWS',
     stateName: 'Rajasthan',
     targetQuality: 'genuine_event',
-    subtitle: '49.6°C extreme heatwave validated by dual-sensor agreement and regional spatial coherence',
-    operationalSummary: 'Observation of 49.6°C is severe relative to 30-year climatology. However, BME280 #1 (49.6°C) and BME280 #2 (49.4°C) match within 0.2°C, and neighboring stations (Barmer 49.1°C, Bikaner 48.9°C) confirm synoptic Loo advection.',
-    whySkyGuardDecided: 'S_anomaly = 82/100 (unusual weather), but S_event = 88/100 (high corroboration). Heating was continuous (+1.6°C/hr) and matches desert surface energy balance. SkyGuard preserves real extreme weather!',
+    subtitle: '49.6Â°C extreme heatwave validated by dual-sensor agreement and regional spatial coherence',
+    operationalSummary: 'Observation of 49.6Â°C is severe relative to 30-year climatology. However, BME280 #1 (49.6Â°C) and BME280 #2 (49.4Â°C) match within 0.2Â°C, and neighboring stations (Barmer 49.1Â°C, Bikaner 48.9Â°C) confirm synoptic Loo advection.',
+    whySkyGuardDecided: 'S_anomaly = 82/100 (unusual weather), but S_event = 88/100 (high corroboration). Heating was continuous (+1.6Â°C/hr) and matches desert surface energy balance. SkyGuard preserves real extreme weather!',
     distinguishingPrinciple: 'Unusual weather does NOT mean faulty sensors. Preserves genuine extreme climatological records.',
   },
 
@@ -1243,8 +1243,8 @@ export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = {
     targetStationName: 'New Delhi Safdarjung AWS',
     stateName: 'Delhi',
     targetQuality: 'sensor_fault',
-    subtitle: 'Sensor wetting failure (4.2°C) isolated during a genuine NCR pre-monsoon squall',
-    operationalSummary: 'A real dust storm & squall crossed Delhi NCR (Palam 28.2°C, Noida 28.9°C). During the rain front, Safdarjung Sensor #1 suffered a rain-short defect dropping to 4.2°C, while Sensor #2 read 28.6°C.',
+    subtitle: 'Sensor wetting failure (4.2Â°C) isolated during a genuine NCR pre-monsoon squall',
+    operationalSummary: 'A real dust storm & squall crossed Delhi NCR (Palam 28.2Â°C, Noida 28.9Â°C). During the rain front, Safdarjung Sensor #1 suffered a rain-short defect dropping to 4.2Â°C, while Sensor #2 read 28.6Â°C.',
     whySkyGuardDecided: 'S_anomaly = 96/100 for Sensor #1. Regional event evidence S_event = 74/100 confirms storm is REAL, but Safdarjung Sensor #1 is FAULTY. SkyGuard flags the bad sensor while validating the regional storm.',
     distinguishingPrinciple: 'Complex multi-station nuance: distinguishes genuine convective weather from simultaneous station hardware failure.',
   },
@@ -1257,8 +1257,8 @@ export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = {
     targetStationName: 'Shimla Himalayan AWS',
     stateName: 'Himachal Pradesh',
     targetQuality: 'uncertain',
-    subtitle: 'High-altitude 14.8°C observation classified as Review due to absence of alpine buddy stations',
-    operationalSummary: 'Observation is 14.8°C at 2205m altitude. Dual BME280 sensors agree (ΔT = 0.1°C) and physics checks pass. However, complex mountain orography lacks peer stations within 60km, lowering spatial confidence.',
+    subtitle: 'High-altitude 14.8Â°C observation classified as Review due to absence of alpine buddy stations',
+    operationalSummary: 'Observation is 14.8Â°C at 2205m altitude. Dual BME280 sensors agree (Î”T = 0.1Â°C) and physics checks pass. However, complex mountain orography lacks peer stations within 60km, lowering spatial confidence.',
     whySkyGuardDecided: 'Confidence is 71%. Edge QC and physical lapse checks pass, but spatial corroboration cannot be computed. SkyGuard flags as UNCERTAIN - REVIEW instead of blind automated acceptance.',
     distinguishingPrinciple: 'Transparent epistemic humility: acknowledging spatial observational limits in rugged terrain without making blind assumptions.',
   },
@@ -1350,7 +1350,7 @@ export const INITIAL_ALERTS: AlertItem[] = [
     districtName: 'New Delhi',
     quality: 'sensor_fault',
     title: 'BME280 #1 Disagreement & Rate-of-Change Fault',
-    description: 'Sensor #1 dropped to 4.2°C during regional squall while Sensor #2 reads 28.6°C. Hardware wetting fault isolated.',
+    description: 'Sensor #1 dropped to 4.2Â°C during regional squall while Sensor #2 reads 28.6Â°C. Hardware wetting fault isolated.',
     sAnomaly: 96,
     sEvent: 74,
   },
@@ -1362,7 +1362,7 @@ export const INITIAL_ALERTS: AlertItem[] = [
     stateName: 'Rajasthan',
     districtName: 'Jaisalmer',
     quality: 'genuine_event',
-    title: '49.6°C Severe Heatwave Corroborated',
+    title: '49.6Â°C Severe Heatwave Corroborated',
     description: 'Extreme heatwave verified by dual-sensor consensus and 300km regional buddy network (Barmer & Bikaner).',
     sAnomaly: 82,
     sEvent: 88,
@@ -1645,3 +1645,4 @@ export const ACTUAL_AWS_STATIONS: AWSStation[] = Object.values(INITIAL_AWS_STATI
 export const INDIA_STATES_INFO: StateInfo[] = INDIA_STATES;
 export const ALERT_ITEMS: AlertItem[] = INITIAL_ALERTS;
 export const DEMO_SCENARIOS_LIST: DemoScenario[] = Object.values(DEMO_SCENARIOS);
+
